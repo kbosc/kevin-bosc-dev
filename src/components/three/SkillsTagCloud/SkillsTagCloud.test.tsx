@@ -20,6 +20,10 @@ vi.mock('@/hooks/useReducedMotion', () => ({
   useReducedMotion: () => mockUseReducedMotion(),
 }));
 
+vi.mock('@/hooks/useTheme', () => ({
+  useTheme: () => ({ theme: 'light', isDark: false, toggleTheme: vi.fn() }),
+}));
+
 const SAMPLE_SKILLS = ['React', 'TypeScript', 'SASS'];
 
 describe('SkillsTagCloud', () => {

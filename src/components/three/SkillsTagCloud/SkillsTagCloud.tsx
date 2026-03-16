@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useTheme } from '@/hooks/useTheme';
 import styles from './SkillsTagCloud.module.scss';
 
 const SkillsTagCloudCanvas = lazy(() => import('./SkillsTagCloudCanvas'));
@@ -15,6 +16,7 @@ interface SkillsTagCloudProps {
  */
 export function SkillsTagCloud({ skillNames }: SkillsTagCloudProps) {
   const prefersReducedMotion = useReducedMotion();
+  const { isDark } = useTheme();
 
   if (prefersReducedMotion) {
     return null;
@@ -27,7 +29,7 @@ export function SkillsTagCloud({ skillNames }: SkillsTagCloudProps) {
       aria-label="Nuage de compétences en 3D"
     >
       <Suspense fallback={<div className={styles.loading}>Chargement…</div>}>
-        <SkillsTagCloudCanvas skillNames={skillNames} />
+        <SkillsTagCloudCanvas skillNames={skillNames} isDark={isDark} />
       </Suspense>
     </div>
   );

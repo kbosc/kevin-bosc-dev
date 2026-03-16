@@ -12,14 +12,25 @@ const AUTO_ROTATION_SPEED = 0.002;
 const DRAG_SENSITIVITY = 0.008;
 const INERTIA_DAMPING = 0.95;
 
-// Colors matching the mana palette — cycled across tags
-const TAG_COLORS = [
-  '#60a5fa', // blue
-  '#f87171', // red
-  '#4ade80', // green
-  '#a78bfa', // purple
-  '#d6d3d1', // white
-  '#d4a853', // gold
+// Mana-colored palettes — different per theme for WCAG contrast
+// Light mode: darker, saturated colors readable on parchment (#faf6ef)
+// Dark mode: brighter, luminous colors readable on indigo-black (#0a0a1a)
+const TAG_COLORS_LIGHT = [
+  '#1d4ed8', // blue — deep
+  '#b91c1c', // red — deep
+  '#15803d', // green — deep
+  '#6d28d9', // purple — deep
+  '#57534e', // stone — dark enough on parchment
+  '#92400e', // amber — deep gold/brown
+];
+
+const TAG_COLORS_DARK = [
+  '#60a5fa', // blue — bright
+  '#f87171', // red — bright
+  '#4ade80', // green — bright
+  '#a78bfa', // purple — bright
+  '#d6d3d1', // stone — light
+  '#fbbf24', // amber — vivid gold
 ];
 
 // ---------------------------------------------------
@@ -88,11 +99,15 @@ function TagLabel({ text, position, color }: TagLabelProps) {
 
 interface RotatingCloudProps {
   skillNames: string[];
+  isDark: boolean;
 }
 
-function RotatingCloud({ skillNames }: RotatingCloudProps) {
+function RotatingCloud({ skillNames, isDark }: RotatingCloudProps) {
   const groupRef = useRef<THREE.Group>(null);
   const { gl } = useThree();
+
+  // Pick color palette based on current theme
+  const tagColors = isDark ? TAG_COLORS_DARK : TAG_COLORS_LIGHT;
 
   // Drag state stored in refs to avoid re-renders every frame
   const isDragging = useRef(false);
@@ -182,7 +197,7 @@ function RotatingCloud({ skillNames }: RotatingCloudProps) {
           key={name}
           text={name}
           position={positions[index]}
-          color={TAG_COLORS[index % TAG_COLORS.length]}
+          color={tagColors[index % tagColors.length]}
         />
       ))}
     </group>
@@ -195,9 +210,10 @@ function RotatingCloud({ skillNames }: RotatingCloudProps) {
 
 interface SkillsTagCloudCanvasProps {
   skillNames: string[];
+  isDark: boolean;
 }
 
-export default function SkillsTagCloudCanvas({ skillNames }: SkillsTagCloudCanvasProps) {
+export default function SkillsTagCloudCanvas({ skillNames, isDark }: SkillsTagCloudCanvasProps) {
   return (
     <Canvas
       camera={{ position: [0, 0, 10], fov: 50 }}
@@ -206,7 +222,7 @@ export default function SkillsTagCloudCanvas({ skillNames }: SkillsTagCloudCanva
       dpr={[1, 2]}
     >
       <ambientLight intensity={0.8} />
-      <RotatingCloud skillNames={skillNames} />
+      <RotatingCloud skillNames={skillNames} isDark={isDark} />
     </Canvas>
   );
 }

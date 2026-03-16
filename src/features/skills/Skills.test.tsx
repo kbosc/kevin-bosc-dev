@@ -1,6 +1,11 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { Skills } from './Skills';
+
+// SkillsTagCloud uses useTheme internally
+vi.mock('@/hooks/useTheme', () => ({
+  useTheme: () => ({ theme: 'light', isDark: false, toggleTheme: vi.fn() }),
+}));
 
 describe('Skills', () => {
   it('renders the section title', () => {
