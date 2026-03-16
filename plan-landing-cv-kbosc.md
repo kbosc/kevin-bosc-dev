@@ -256,15 +256,15 @@ e2e/
 | 9 | Experience + Timeline | 4, 5, 6 | ✅ |
 | 10 | Skills (grille de tags) | 4, 5, 6 | ✅ |
 | 11 | Education + Projects + Contact + Footer | 4, 5, 6 | ✅ |
-| 12 | 🚂 `TrainScene` Three.js | 9 | ✅ |
-| 13 | `SkillsTagCloud` Three.js | 10 | ✅ |
+| 12 | 🚂 `TrainScene` Three.js | 9 | ✅ (retiré — pas esthétique) |
+| 13 | `SkillsTagCloud` Three.js | 10 | ✅ (drag-to-rotate + thème) |
 | 14 | ✨ `ParticleStars` Three.js | 3 | ✅ |
-| 15 | 🔴 Easter egg Pokéball | 11 | ✅ |
-| 16 | Scroll animations + parallaxe | 7–11 | ✅ (TrainScene scroll-driven) |
-| 17 | Tests unitaires (tous) | 7–15 | ✅ (19 fichiers, 64 tests) |
-| 18 | Tests E2E | 16 | ✅ (4 spec files créés) |
-| 19 | Responsive fine-tuning + A11y audit | 17 | 🔲 |
-| 20 | Performance + SEO + déploiement Vercel | 19 | 🔲 |
+| 15 | 🔴 Easter egg Pokéball | 11 | ✅ (wobble capture + SVG extrait) |
+| 16 | Scroll animations + parallaxe | 7–11 | ✅ |
+| 17 | Tests unitaires (tous) | 7–15 | ✅ (20 fichiers, 71 tests) |
+| 18 | Tests E2E | 16 | ✅ (4 spec files) |
+| 19 | Responsive fine-tuning + A11y audit | 17 | ✅ (burger menu mobile) |
+| 20 | Performance + SEO + déploiement Vercel | 19 | ✅ (SEO, JSON-LD, meta, sitemap) |
 
 ---
 

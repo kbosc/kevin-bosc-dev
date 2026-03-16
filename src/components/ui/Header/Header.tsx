@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react';
 import { Container } from '@/components/ui/Container/Container';
 import { ThemeToggle } from '@/components/ui/ThemeToggle/ThemeToggle';
 import styles from './Header.module.scss';
@@ -12,6 +13,18 @@ const NAV_LINKS = [
 ];
 
 export function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleToggleMenu = useCallback(() => {
+    setIsMenuOpen((previous) => !previous);
+  }, []);
+
+  const handleLinkClick = useCallback(() => {
+    setIsMenuOpen(false);
+  }, []);
+
+  const menuLabel = isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu';
+
   return (
     <header className={styles.header}>
       <Container>
@@ -20,9 +33,17 @@ export function Header() {
             KB
           </a>
 
-          <nav className={styles.nav} aria-label="Navigation principale">
+          <nav
+            className={`${styles.nav} ${isMenuOpen ? styles.navOpen : ''}`}
+            aria-label="Navigation principale"
+          >
             {NAV_LINKS.map((link) => (
-              <a key={link.href} href={link.href} className={styles.navLink}>
+              <a
+                key={link.href}
+                href={link.href}
+                className={styles.navLink}
+                onClick={handleLinkClick}
+              >
                 {link.label}
               </a>
             ))}
@@ -30,6 +51,17 @@ export function Header() {
 
           <div className={styles.actions}>
             <ThemeToggle />
+
+            <button
+              className={styles.burger}
+              onClick={handleToggleMenu}
+              aria-label={menuLabel}
+              aria-expanded={isMenuOpen}
+            >
+              <span className={`${styles.burgerLine} ${isMenuOpen ? styles.burgerOpen : ''}`} />
+              <span className={`${styles.burgerLine} ${isMenuOpen ? styles.burgerOpen : ''}`} />
+              <span className={`${styles.burgerLine} ${isMenuOpen ? styles.burgerOpen : ''}`} />
+            </button>
           </div>
         </div>
       </Container>

@@ -10,6 +10,7 @@ export const experiences: Experience[] = [
     endDate: "Aujourd'hui",
     description:
       "Site web d'information voyageur (13 Millions de visiteurs annuels)",
+    projectUrl: 'https://www.transilien.com/fr',
     highlights: [
       'Pilotage de la migration vers React 19 et transition de l\'architecture CSS vers Sass 1.97 (adoption des modules @use et @forward)',
       'Migration stratégique de Redux vers Zustand afin de simplifier la logique métier et optimiser les performances de rendu',
@@ -94,6 +95,8 @@ export const experiences: Experience[] = [
     startDate: '09/2020',
     endDate: '10/2021',
     description: "Conception d'une web-application from-scratch",
+    projectUrl: 'https://www.mbs.fr/',
+
     highlights: [
       "Mise en place de formulaires d'inscription",
       'Développement du catalogue + fiche détail',

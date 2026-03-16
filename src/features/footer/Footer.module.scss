@@ -43,18 +43,12 @@
     transform: scale(1.15);
   }
 
+  &:hover:not(:disabled) svg {
+    filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.4));
+  }
+
   &:disabled {
     cursor: default;
-  }
-}
-
-.pokeballSvg {
-  display: block;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
-  transition: filter $transition-fast;
-
-  .pokeball:hover:not(:disabled) & {
-    filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.4));
   }
 }
 

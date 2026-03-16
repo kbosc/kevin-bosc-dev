@@ -16,6 +16,8 @@ export interface Experience {
   stack: string[];
   methodology: string;
   team: string;
+  /** URL du projet réalisé (ex: lien vers le site en production) */
+  projectUrl?: string;
 }
 
 export interface Skill {

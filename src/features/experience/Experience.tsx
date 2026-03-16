@@ -4,15 +4,11 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { Container } from '@/components/ui/Container/Container';
 import { SectionTitle } from '@/components/ui/SectionTitle/SectionTitle';
 import { Tag } from '@/components/ui/Tag/Tag';
-import { TrainScene } from '@/components/three/TrainScene/TrainScene';
 import { experiences } from '@/data/experiences';
 import type { Experience as ExperienceType } from '@/types';
 import styles from './Experience.module.scss';
 
 const SECTION_TITLE_ID = 'experience-title';
-
-// The SNCF experience gets the special train animation
-const SNCF_EXPERIENCE_ID = 'sncf';
 
 export function Experience() {
   const prefersReducedMotion = useReducedMotion();
@@ -34,7 +30,6 @@ export function Experience() {
               experience={experience}
               index={index}
               prefersReducedMotion={prefersReducedMotion}
-              showTrainAnimation={experience.id === SNCF_EXPERIENCE_ID}
             />
           ))}
         </div>
@@ -49,14 +44,12 @@ interface TimelineItemProps {
   experience: ExperienceType;
   index: number;
   prefersReducedMotion: boolean;
-  showTrainAnimation: boolean;
 }
 
 function TimelineItem({
   experience,
   index,
   prefersReducedMotion,
-  showTrainAnimation,
 }: TimelineItemProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -105,6 +98,17 @@ function TimelineItem({
 
         <p className={styles.description}>{experience.description}</p>
 
+        {experience.projectUrl && (
+          <a
+            href={experience.projectUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.projectLink}
+          >
+            <span aria-hidden="true">🔗</span> Voir le projet
+          </a>
+        )}
+
         {/* Always visible highlights (first 3) */}
         <ul className={styles.highlightsList}>
           {alwaysVisibleHighlights.map((highlight) => (
@@ -121,10 +125,6 @@ function TimelineItem({
               className={styles.collapsibleSection}
               {...collapseAnimation}
             >
-              {/* Train animation — only for SNCF experience */}
-              {showTrainAnimation && (
-                <TrainScene isVisible={isExpanded} />
-              )}
 
               <ul className={styles.highlightsList}>
                 {hiddenHighlights.map((highlight, highlightIndex) => (

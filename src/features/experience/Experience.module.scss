@@ -126,6 +126,27 @@
   margin-bottom: $spacing-md;
 }
 
+.projectLink {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: var(--color-primary);
+  text-decoration: none;
+  margin-bottom: $spacing-md;
+  transition:
+    color $transition-fast,
+    text-decoration $transition-fast;
+
+  @include focus-visible-ring;
+
+  &:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+  }
+}
+
 .details {
   overflow: hidden;
 }
