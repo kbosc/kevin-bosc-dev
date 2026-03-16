@@ -13,6 +13,8 @@ dist-ssr
 *.local
 
 # Editor directories and files
+AGENT_INSTRUCTIONS.md
+plan-landing-cv-kbosc.md
 .vscode/*
 !.vscode/extensions.json
 .idea
