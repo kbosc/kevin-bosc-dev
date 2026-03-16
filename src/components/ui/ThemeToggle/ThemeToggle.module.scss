@@ -1,0 +1,38 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 2px solid var(--color-border-light);
+  border-radius: $radius-full;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  font-size: $font-size-lg;
+  transition:
+    border-color $transition-fast,
+    background-color $transition-fast;
+
+  @include focus-visible-ring;
+
+  &:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-bg-tertiary);
+    box-shadow: var(--glow-primary);
+  }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+

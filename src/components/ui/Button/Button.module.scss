@@ -1,0 +1,63 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  border-radius: $radius-md;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast,
+    box-shadow $transition-fast,
+    transform $transition-fast;
+  text-decoration: none;
+  cursor: pointer;
+
+  @include focus-visible-ring;
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+// ---- Variants ----
+
+.primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: var(--glow-primary);
+
+  &:hover {
+    background-color: var(--color-primary-hover);
+    box-shadow: var(--glow-hover);
+  }
+}
+
+.secondary {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+
+  &:hover {
+    background-color: var(--color-primary-light);
+    box-shadow: var(--glow-primary);
+  }
+}
+
+.outline {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border: 2px solid var(--color-border-medium);
+
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    box-shadow: var(--glow-primary);
+  }
+}

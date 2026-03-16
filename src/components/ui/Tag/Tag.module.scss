@@ -1,0 +1,56 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-xs $spacing-sm;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-tight;
+  border-radius: $radius-full;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border-light);
+  transition:
+    background-color $transition-fast,
+    transform $transition-fast,
+    box-shadow $transition-fast;
+  white-space: nowrap;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--glow-primary);
+  }
+}
+
+// Mana-colored variants (applied via data attribute)
+.manaBlue {
+  color: var(--mana-blue);
+  border-color: var(--mana-blue);
+  background-color: transparent;
+}
+
+.manaRed {
+  color: var(--mana-red);
+  border-color: var(--mana-red);
+  background-color: transparent;
+}
+
+.manaGreen {
+  color: var(--mana-green);
+  border-color: var(--mana-green);
+  background-color: transparent;
+}
+
+.manaWhite {
+  color: var(--mana-white);
+  border-color: var(--mana-white);
+  background-color: transparent;
+}
+
+.manaPurple {
+  color: var(--mana-purple);
+  border-color: var(--mana-purple);
+  background-color: transparent;
+}

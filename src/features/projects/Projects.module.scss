@@ -1,0 +1,109 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.projects {
+  padding: $spacing-3xl 0;
+  background-color: var(--color-bg-secondary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+
+  @include respond-to('tablet') {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+}
+
+// ---- Magic: The Gathering inspired card ----
+
+.card {
+  position: relative;
+  background-color: var(--color-bg-primary);
+  border-radius: $radius-lg;
+  overflow: hidden;
+  transition:
+    transform $transition-fast,
+    box-shadow $transition-fast;
+
+  // Gold gradient border — like a Rare MTG card
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: $radius-lg;
+    padding: 3px;
+    background: var(--gradient-gold);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  &:hover {
+    box-shadow: var(--glow-hover);
+  }
+}
+
+.cardInner {
+  padding: $spacing-lg;
+}
+
+// Top banner: card name
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: $spacing-sm;
+  border-bottom: 1px solid var(--color-border-light);
+  margin-bottom: $spacing-md;
+}
+
+.cardName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: var(--color-text-accent);
+}
+
+.cardType {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: var(--color-text-tertiary);
+  font-style: italic;
+  padding: $spacing-xs 0;
+  border-bottom: 1px solid var(--color-border-light);
+  margin-bottom: $spacing-sm;
+}
+
+// "Flavor text" / description
+.cardDescription {
+  font-size: $font-size-sm;
+  color: var(--color-text-secondary);
+  line-height: $line-height-base;
+  margin-bottom: $spacing-md;
+  font-style: italic;
+}
+
+.highlightsList {
+  padding-left: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+.highlight {
+  font-size: $font-size-sm;
+  color: var(--color-text-secondary);
+  margin-bottom: $spacing-xs;
+  list-style: disc;
+  line-height: $line-height-base;
+}
+
+// "Mana" symbols = tech stack tags
+.cardFooter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  padding-top: $spacing-sm;
+  border-top: 1px solid var(--color-border-light);
+}

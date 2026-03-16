@@ -1,0 +1,70 @@
+// ==========================================
+// Typography — Global type styles
+// ==========================================
+
+@use 'variables' as *;
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-base;
+  color: var(--color-text-primary);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  color: var(--color-text-primary);
+}
+
+h1 {
+  font-size: $font-size-2xl;
+
+  @media (min-width: $bp-tablet) {
+    font-size: $font-size-3xl;
+  }
+
+  @media (min-width: $bp-desktop) {
+    font-size: $font-size-4xl;
+  }
+}
+
+h2 {
+  font-size: $font-size-xl;
+
+  @media (min-width: $bp-tablet) {
+    font-size: $font-size-2xl;
+  }
+}
+
+h3 {
+  font-size: $font-size-lg;
+
+  @media (min-width: $bp-tablet) {
+    font-size: $font-size-xl;
+  }
+}
+
+p {
+  color: var(--color-text-secondary);
+  line-height: $line-height-base;
+}
+
+a {
+  color: var(--color-text-accent);
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--color-primary-hover);
+  }
+}
+
+code {
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+}
+

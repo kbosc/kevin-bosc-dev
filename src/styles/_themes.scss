@@ -1,0 +1,118 @@
+// ==========================================
+// Theme tokens — CSS custom properties
+// "Arcane & Gold" — MTG-inspired palette
+// ==========================================
+
+// Light theme — warm parchment aesthetic
+[data-theme='light'] {
+  // Backgrounds — warm parchment tones
+  --color-bg-primary: #faf6ef;
+  --color-bg-secondary: #f0ebe1;
+  --color-bg-tertiary: #e5ddd0;
+  --color-bg-accent: #f5eed9;
+
+  // Text — warm dark tones
+  --color-text-primary: #1c1710;
+  --color-text-secondary: #5a4d3c;
+  --color-text-tertiary: #8a7e6e;
+  --color-text-accent: #b08520;
+  --color-text-inverse: #faf6ef;
+
+  // Borders
+  --color-border-light: #ddd5c5;
+  --color-border-medium: #c4b89e;
+
+  // Interactive — deep gold
+  --color-primary: #b08520;
+  --color-primary-hover: #96710e;
+  --color-primary-light: #f5eed9;
+  --color-secondary: #7c3aed;
+
+  // Status
+  --color-success: #16a34a;
+  --color-error: #dc2626;
+
+  // Focus — gold ring
+  --color-focus-ring: #b08520;
+
+  // Shadows — warm tinted
+  --shadow-sm: 0 1px 3px rgba(60, 40, 10, 0.08);
+  --shadow-md: 0 4px 12px rgba(60, 40, 10, 0.1);
+  --shadow-lg: 0 10px 30px rgba(60, 40, 10, 0.14);
+
+  // Header — parchment glass
+  --color-header-bg: rgba(250, 246, 239, 0.88);
+  --color-header-border: rgba(180, 160, 120, 0.2);
+
+  // Gold gradient for decorative borders
+  --gradient-gold: linear-gradient(135deg, #d4a853, #b08520, #d4a853);
+  --gradient-subtle: linear-gradient(135deg, #f5eed9, #f0ebe1);
+
+  // Mana colors — MTG-inspired category colors
+  --mana-blue: #2563eb;
+  --mana-red: #dc2626;
+  --mana-green: #16a34a;
+  --mana-white: #78716c;
+  --mana-purple: #7c3aed;
+
+  // Glow (very subtle in light mode)
+  --glow-primary: 0 0 20px rgba(176, 133, 32, 0.15);
+  --glow-hover: 0 0 30px rgba(176, 133, 32, 0.2);
+}
+
+// Dark theme — deep arcane aesthetic
+[data-theme='dark'] {
+  // Backgrounds — deep indigo-black
+  --color-bg-primary: #0a0a1a;
+  --color-bg-secondary: #111128;
+  --color-bg-tertiary: #1a1a38;
+  --color-bg-accent: #1c1530;
+
+  // Text — cool light tones
+  --color-text-primary: #e8e4f0;
+  --color-text-secondary: #a09cb8;
+  --color-text-tertiary: #6b6888;
+  --color-text-accent: #d4a853;
+  --color-text-inverse: #0a0a1a;
+
+  // Borders
+  --color-border-light: #2a2a4a;
+  --color-border-medium: #3a3a5e;
+
+  // Interactive — bright gold
+  --color-primary: #d4a853;
+  --color-primary-hover: #e8c06a;
+  --color-primary-light: #2a2040;
+  --color-secondary: #a78bfa;
+
+  // Status
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+
+  // Focus — gold ring
+  --color-focus-ring: #d4a853;
+
+  // Shadows — deep colored
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 30px rgba(10, 5, 30, 0.6);
+
+  // Header — dark glass
+  --color-header-bg: rgba(10, 10, 26, 0.88);
+  --color-header-border: rgba(212, 168, 83, 0.12);
+
+  // Gold gradient for decorative borders
+  --gradient-gold: linear-gradient(135deg, #d4a853, #f0c060, #d4a853);
+  --gradient-subtle: linear-gradient(135deg, #1a1a38, #111128);
+
+  // Mana colors — brighter for dark bg
+  --mana-blue: #60a5fa;
+  --mana-red: #f87171;
+  --mana-green: #4ade80;
+  --mana-white: #d6d3d1;
+  --mana-purple: #a78bfa;
+
+  // Glow (prominent in dark mode)
+  --glow-primary: 0 0 25px rgba(212, 168, 83, 0.2);
+  --glow-hover: 0 0 40px rgba(212, 168, 83, 0.35);
+}

@@ -1,0 +1,27 @@
+import { useEffect, useState } from 'react';
+
+/**
+ * Hook that returns true when the viewport matches the given media query.
+ */
+export function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = useState(() => {
+    return window.matchMedia(query).matches;
+  });
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(query);
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      setMatches(event.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+    };
+  }, [query]);
+
+  return matches;
+}
+

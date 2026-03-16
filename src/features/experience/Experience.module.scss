@@ -1,0 +1,210 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.experience {
+  padding: $spacing-3xl 0;
+  position: relative;
+  overflow: hidden;
+}
+
+// ---- Timeline ----
+
+.timeline {
+  position: relative;
+  padding-left: $spacing-xl;
+
+  @include respond-to('tablet') {
+    padding-left: 0;
+  }
+}
+
+// Vertical line
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--gradient-gold);
+
+  @include respond-to('tablet') {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: $spacing-2xl;
+
+  @include respond-to('tablet') {
+    width: 45%;
+
+    // Alternate left/right
+    &:nth-child(odd) {
+      margin-left: 0;
+      margin-right: auto;
+      text-align: right;
+      padding-right: $spacing-xl;
+    }
+
+    &:nth-child(even) {
+      margin-left: auto;
+      margin-right: 0;
+      padding-left: $spacing-xl;
+    }
+  }
+}
+
+// Node dot on timeline
+.timelineDot {
+  position: absolute;
+  left: -28px;
+  top: $spacing-sm;
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-primary);
+  border: 3px solid var(--color-bg-primary);
+  border-radius: $radius-full;
+  z-index: 1;
+  box-shadow: var(--glow-primary);
+
+  @include respond-to('tablet') {
+    left: auto;
+
+    .timelineItem:nth-child(odd) & {
+      right: -32px;
+    }
+
+    .timelineItem:nth-child(even) & {
+      left: -32px;
+    }
+  }
+}
+
+.card {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-light);
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  transition:
+    box-shadow $transition-fast,
+    transform $transition-fast;
+
+  &:hover {
+    box-shadow: var(--glow-hover);
+    transform: translateY(-2px);
+  }
+}
+
+.cardHeader {
+  margin-bottom: $spacing-md;
+}
+
+.company {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: var(--color-text-primary);
+}
+
+.role {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: var(--color-text-accent);
+}
+
+.dates {
+  font-size: $font-size-sm;
+  color: var(--color-text-tertiary);
+  margin-top: $spacing-xs;
+}
+
+.description {
+  font-size: $font-size-sm;
+  color: var(--color-text-secondary);
+  margin-bottom: $spacing-md;
+}
+
+.details {
+  overflow: hidden;
+}
+
+.highlightsList {
+  padding-left: $spacing-md;
+  margin-bottom: $spacing-md;
+
+  @include respond-to('tablet') {
+    .timelineItem:nth-child(odd) & {
+      text-align: left;
+    }
+  }
+}
+
+.highlight {
+  font-size: $font-size-sm;
+  color: var(--color-text-secondary);
+  margin-bottom: $spacing-xs;
+  list-style: disc;
+  line-height: $line-height-base;
+}
+
+.stackList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+
+  @include respond-to('tablet') {
+    .timelineItem:nth-child(odd) & {
+      justify-content: flex-end;
+    }
+  }
+}
+
+.collapsibleSection {
+  overflow: hidden;
+}
+
+.expandButton {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  margin-top: $spacing-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: var(--color-primary);
+  cursor: pointer;
+  background: none;
+  border: 1px solid var(--color-border-light);
+  border-radius: $radius-full;
+  padding: $spacing-xs $spacing-md;
+  transition:
+    color $transition-fast,
+    border-color $transition-fast,
+    background-color $transition-fast,
+    box-shadow $transition-fast;
+
+  @include focus-visible-ring;
+
+  &:hover {
+    color: var(--color-primary-hover);
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-light);
+    box-shadow: var(--glow-primary);
+  }
+}
+
+.expandIcon {
+  display: inline-flex;
+  font-size: $font-size-xs;
+
+	&:hover {
+		color: var(--color-primary-hover);
+	}
+}
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.sectionTitle {
+  position: relative;
+  display: inline-block;
+  margin-bottom: $spacing-2xl;
+  font-weight: $font-weight-bold;
+  color: var(--color-text-primary);
+
+  // Decorative gold underline bar
+  &::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    margin-top: $spacing-sm;
+    background: var(--gradient-gold);
+    border-radius: $radius-full;
+    transition: width $transition-base;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}

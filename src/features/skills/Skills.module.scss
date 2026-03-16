@@ -1,0 +1,25 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.skills {
+  padding: $spacing-3xl 0;
+  background-color: var(--color-bg-secondary);
+}
+
+.categoryGroup {
+  margin-bottom: $spacing-2xl;
+}
+
+.categoryTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: var(--color-text-primary);
+  margin-bottom: $spacing-md;
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+

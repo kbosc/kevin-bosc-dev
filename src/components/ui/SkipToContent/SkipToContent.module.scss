@@ -1,0 +1,29 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.skipLink {
+  @include visually-hidden;
+
+  position: fixed;
+  top: $spacing-sm;
+  left: $spacing-sm;
+  z-index: $z-skip-link;
+  padding: $spacing-sm $spacing-md;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
+  border-radius: $radius-md;
+  text-decoration: none;
+
+  // Show the link when focused (keyboard navigation)
+  &:focus {
+    clip: auto;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    white-space: normal;
+    margin: 0;
+  }
+}
+
