@@ -67,7 +67,6 @@ function TimelineItem({
       };
 
   const expandButtonLabel = isExpanded ? 'Voir moins' : 'Voir plus';
-  const expandButtonIcon = isExpanded ? '▲' : '▼';
 
   const alwaysVisibleHighlights = experience.highlights.slice(0, 3);
   const hiddenHighlights = experience.highlights.slice(3);
@@ -162,7 +161,7 @@ function TimelineItem({
               animate={{ rotate: isExpanded ? 180 : 0 }}
               transition={{ duration: 0.3 }}
             >
-              {expandButtonIcon}
+              ▼
             </motion.span>
           </button>
         )}
