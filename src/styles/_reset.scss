@@ -12,6 +12,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 70px; // compensate for fixed header (60px + 10px breathing room)
   -webkit-text-size-adjust: 100%;
 
   @media (prefers-reduced-motion: reduce) {

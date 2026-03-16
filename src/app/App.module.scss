@@ -1,6 +1,10 @@
 @use '@/styles/variables' as *;
 
+// 60px = height of the fixed header
+$header-height: 60px;
+
 .main {
   min-height: 100vh;
+  padding-top: $header-height;
 }
 

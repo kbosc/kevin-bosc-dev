@@ -2,8 +2,10 @@
 @use '@/styles/mixins' as *;
 
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: $z-overlay;
   background-color: var(--color-header-bg);
   backdrop-filter: blur(12px);
