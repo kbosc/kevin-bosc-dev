@@ -5,6 +5,9 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // GitHub Pages serves from /kevin-bosc-dev/
+  // Set to '/' if using a custom domain (e.g. kevinbosc.dev)
+  base: process.env.GITHUB_ACTIONS ? '/kevin-bosc-dev/' : '/',
   plugins: [react()],
   resolve: {
     alias: {
