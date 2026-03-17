@@ -13,7 +13,6 @@ interface ThemeContextValue {
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
-/* eslint-disable-next-line react-refresh/only-export-components */
 export { ThemeContext };
 
 // ---------------------------------------------------

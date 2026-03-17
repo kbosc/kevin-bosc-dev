@@ -41,15 +41,14 @@ export function useSpriteAnimation(options: UseSpriteAnimationOptions): UseSprit
     // ... (preload et stopAnimation restent identiques)
 
     useEffect(() => {
-        if (!isPlaying || frames.length === 0) {
-            return;
-        }
+        if (!isPlaying || frames.length === 0) return;
 
-        // On utilise une variable locale pour le suivi
         const startIndex = direction === 'forward' ? 0 : frames.length - 1;
         const endIndex = direction === 'forward' ? frames.length - 1 : 0;
 
-        setCurrentFrameIndex(startIndex);
+        // ✅ On utilise une fonction de mise à jour pour éviter le warning de "cascading render"
+        // ou on vérifie si la valeur est déjà la bonne avant de setter.
+        setCurrentFrameIndex((prev) => (prev !== startIndex ? startIndex : prev));
         setIsAnimating(true);
 
         lastFrameTimeRef.current = performance.now();
@@ -57,11 +56,15 @@ export function useSpriteAnimation(options: UseSpriteAnimationOptions): UseSprit
 
         const animate = (timestamp: number) => {
             const elapsed = timestamp - lastFrameTimeRef.current;
-            if (elapsed >= 1000 / fps) {
+            if (elapsed >= frameDuration) {
                 lastFrameTimeRef.current = timestamp;
-                localIndex = direction === 'forward' ? localIndex + 1 : localIndex - 1;
 
-                const hasReachedEnd = direction === 'forward' ? localIndex > endIndex : localIndex < endIndex;
+                if (direction === 'forward') localIndex += 1;
+                else localIndex -= 1;
+
+                const hasReachedEnd = direction === 'forward'
+                    ? localIndex > endIndex
+                    : localIndex < endIndex;
 
                 if (hasReachedEnd) {
                     setCurrentFrameIndex(endIndex);
@@ -69,16 +72,20 @@ export function useSpriteAnimation(options: UseSpriteAnimationOptions): UseSprit
                     onComplete?.();
                     return;
                 }
+
                 setCurrentFrameIndex(localIndex);
             }
             animationFrameRef.current = requestAnimationFrame(animate);
         };
 
         animationFrameRef.current = requestAnimationFrame(animate);
+
         return () => {
-            if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+            if (animationFrameRef.current !== null) {
+                cancelAnimationFrame(animationFrameRef.current);
+            }
         };
-    }, [isPlaying, direction, frames, fps, onComplete]);
+    }, [isPlaying, direction, frames, frameDuration, onComplete]);
 
     const currentFrame = frames[currentFrameIndex] ?? '';
     return { currentFrame, isAnimating };

@@ -1,20 +1,20 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
+import {useEffect, useRef, useState} from 'react';
+import {useReducedMotion} from '@/hooks/useReducedMotion';
 
 interface UseTypingEffectOptions {
-  /** The full text to type out */
-  text: string;
-  /** Milliseconds between each character. Default: 80 */
-  speed?: number;
-  /** Milliseconds to wait before starting. Default: 500 */
-  startDelay?: number;
+    /** The full text to type out */
+    text: string;
+    /** Milliseconds between each character. Default: 80 */
+    speed?: number;
+    /** Milliseconds to wait before starting. Default: 500 */
+    startDelay?: number;
 }
 
 interface UseTypingEffectReturn {
-  /** The currently displayed text (progressively growing) */
-  displayedText: string;
-  /** Whether the typing animation has finished */
-  isComplete: boolean;
+    /** The currently displayed text (progressively growing) */
+    displayedText: string;
+    /** Whether the typing animation has finished */
+    isComplete: boolean;
 }
 
 /**
@@ -22,7 +22,7 @@ interface UseTypingEffectReturn {
  * Respects prefers-reduced-motion by showing the full text immediately.
  */
 export function useTypingEffect(options: UseTypingEffectOptions): UseTypingEffectReturn {
-    const { text, speed = 80, startDelay = 500 } = options;
+    const {text, speed = 80, startDelay = 500} = options;
     const prefersReducedMotion = useReducedMotion();
 
     // On gère la réinitialisation par la "key" du composant
@@ -64,6 +64,6 @@ export function useTypingEffect(options: UseTypingEffectOptions): UseTypingEffec
         };
     }, [text, speed, startDelay, prefersReducedMotion]);
 
-    return { displayedText, isComplete };
+    return {displayedText, isComplete};
 }
 
