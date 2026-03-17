@@ -69,7 +69,12 @@ export function Hero() {
             {...animationProps}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <Button as="link" href={`${import.meta.env.BASE_URL}Kevin-CV.pdf`} download>
+            <Button
+                as="link"
+                href={`${import.meta.env.BASE_URL}Kevin-CV.pdf`}
+                download
+                className={styles.downloadButton}
+            >
               📄 Télécharger mon CV
             </Button>
             <Button

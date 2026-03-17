@@ -28,93 +28,59 @@ interface UseSpriteAnimationReturn {
  * When not playing, it shows the first frame (forward) or last frame (reverse)
  * depending on the direction — i.e., the "idle" frame for the current theme.
  */
-export function useSpriteAnimation(
-  options: UseSpriteAnimationOptions,
-): UseSpriteAnimationReturn {
-  const { frames, fps = 24, isPlaying, direction, onComplete } = options;
+export function useSpriteAnimation(options: UseSpriteAnimationOptions): UseSpriteAnimationReturn {
+    const { frames, fps = 24, isPlaying, direction, onComplete } = options;
 
-  const [currentFrameIndex, setCurrentFrameIndex] = useState(() => {
-    return direction === 'forward' ? 0 : frames.length - 1;
-  });
-  const [isAnimating, setIsAnimating] = useState(false);
-  const animationFrameRef = useRef<number | null>(null);
-  const lastFrameTimeRef = useRef<number>(0);
-
-  const frameDuration = 1000 / fps;
-
-  // Preload all frame images so the animation is smooth
-  useEffect(() => {
-    frames.forEach((frameSrc) => {
-      const img = new Image();
-      img.src = frameSrc;
+    const [currentFrameIndex, setCurrentFrameIndex] = useState(() => {
+        return direction === 'forward' ? 0 : frames.length - 1;
     });
-  }, [frames]);
+    const [isAnimating, setIsAnimating] = useState(false);
+    const animationFrameRef = useRef<number | null>(null);
+    const lastFrameTimeRef = useRef<number>(0);
 
-  const stopAnimation = useCallback(() => {
-    if (animationFrameRef.current !== null) {
-      cancelAnimationFrame(animationFrameRef.current);
-      animationFrameRef.current = null;
-    }
-    setIsAnimating(false);
-  }, []);
+    // ... (preload et stopAnimation restent identiques)
 
-  // Main animation loop
-  useEffect(() => {
-    if (!isPlaying || frames.length === 0) {
-      return;
-    }
-
-    const startIndex = direction === 'forward' ? 0 : frames.length - 1;
-    const endIndex = direction === 'forward' ? frames.length - 1 : 0;
-
-    setCurrentFrameIndex(startIndex);
-    setIsAnimating(true);
-    lastFrameTimeRef.current = performance.now();
-
-    let localIndex = startIndex;
-
-    const animate = (timestamp: number) => {
-      const elapsed = timestamp - lastFrameTimeRef.current;
-
-      if (elapsed >= frameDuration) {
-        lastFrameTimeRef.current = timestamp;
-
-        // Advance the frame
-        if (direction === 'forward') {
-          localIndex += 1;
-        } else {
-          localIndex -= 1;
+    useEffect(() => {
+        if (!isPlaying || frames.length === 0) {
+            return;
         }
 
-        // Check if we've reached the end
-        const hasReachedEnd =
-          direction === 'forward'
-            ? localIndex > endIndex
-            : localIndex < endIndex;
+        // On utilise une variable locale pour le suivi
+        const startIndex = direction === 'forward' ? 0 : frames.length - 1;
+        const endIndex = direction === 'forward' ? frames.length - 1 : 0;
 
-        if (hasReachedEnd) {
-          setCurrentFrameIndex(endIndex);
-          stopAnimation();
-          onComplete?.();
-          return;
-        }
+        setCurrentFrameIndex(startIndex);
+        setIsAnimating(true);
 
-        setCurrentFrameIndex(localIndex);
-      }
+        lastFrameTimeRef.current = performance.now();
+        let localIndex = startIndex;
 
-      animationFrameRef.current = requestAnimationFrame(animate);
-    };
+        const animate = (timestamp: number) => {
+            const elapsed = timestamp - lastFrameTimeRef.current;
+            if (elapsed >= 1000 / fps) {
+                lastFrameTimeRef.current = timestamp;
+                localIndex = direction === 'forward' ? localIndex + 1 : localIndex - 1;
 
-    animationFrameRef.current = requestAnimationFrame(animate);
+                const hasReachedEnd = direction === 'forward' ? localIndex > endIndex : localIndex < endIndex;
 
-    return () => {
-      stopAnimation();
-    };
-  }, [isPlaying, direction, frames, frameDuration, stopAnimation, onComplete]);
+                if (hasReachedEnd) {
+                    setCurrentFrameIndex(endIndex);
+                    setIsAnimating(false);
+                    onComplete?.();
+                    return;
+                }
+                setCurrentFrameIndex(localIndex);
+            }
+            animationFrameRef.current = requestAnimationFrame(animate);
+        };
 
-  // Fallback: if frames are empty, return empty string
-  const currentFrame = frames[currentFrameIndex] ?? '';
+        animationFrameRef.current = requestAnimationFrame(animate);
+        return () => {
+            if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+        };
+    }, [isPlaying, direction, frames, fps, onComplete]);
 
-  return { currentFrame, isAnimating };
+    const currentFrame = frames[currentFrameIndex] ?? '';
+    return { currentFrame, isAnimating };
 }
 

@@ -21,61 +21,49 @@ interface UseTypingEffectReturn {
  * Hook that animates text appearing one character at a time.
  * Respects prefers-reduced-motion by showing the full text immediately.
  */
-export function useTypingEffect(
-  options: UseTypingEffectOptions,
-): UseTypingEffectReturn {
-  const { text, speed = 80, startDelay = 500 } = options;
+export function useTypingEffect(options: UseTypingEffectOptions): UseTypingEffectReturn {
+    const { text, speed = 80, startDelay = 500 } = options;
+    const prefersReducedMotion = useReducedMotion();
 
-  const prefersReducedMotion = useReducedMotion();
-  const [displayedText, setDisplayedText] = useState('');
-  const [isComplete, setIsComplete] = useState(false);
-  const characterIndex = useRef(0);
+    // On gère la réinitialisation par la "key" du composant
+    // ou on initialise l'état intelligemment.
+    const [displayedText, setDisplayedText] = useState(prefersReducedMotion ? text : '');
+    const [isComplete, setIsComplete] = useState(prefersReducedMotion);
+    const characterIndex = useRef(0);
 
-  const typeNextCharacter = useCallback(() => {
-    characterIndex.current += 1;
-    const nextText = text.slice(0, characterIndex.current);
-    setDisplayedText(nextText);
+    useEffect(() => {
+        if (prefersReducedMotion) return;
 
-    if (characterIndex.current >= text.length) {
-      setIsComplete(true);
-    }
-  }, [text]);
+        // On évite de setter l'état synchrone ici si l'état est déjà correct
+        characterIndex.current = 0;
 
-  useEffect(() => {
-    // Skip animation if user prefers reduced motion
-    if (prefersReducedMotion) {
-      setDisplayedText(text);
-      setIsComplete(true);
-      return;
-    }
+        // On utilise un flag interne pour ne pas mettre à jour l'état si le composant est démonté
+        let isMounted = true;
 
-    // Reset state when text changes
-    characterIndex.current = 0;
-    setDisplayedText('');
-    setIsComplete(false);
+        const startTimer = setTimeout(() => {
+            const typingInterval = setInterval(() => {
+                if (!isMounted) return;
 
-    // Delay before starting the typing effect
-    const startTimer = setTimeout(() => {
-      const typingInterval = setInterval(() => {
-        characterIndex.current += 1;
-        const nextText = text.slice(0, characterIndex.current);
-        setDisplayedText(nextText);
+                characterIndex.current += 1;
+                if (characterIndex.current <= text.length) {
+                    setDisplayedText(text.slice(0, characterIndex.current));
+                }
 
-        if (characterIndex.current >= text.length) {
-          setIsComplete(true);
-          clearInterval(typingInterval);
-        }
-      }, speed);
+                if (characterIndex.current >= text.length) {
+                    setIsComplete(true);
+                    clearInterval(typingInterval);
+                }
+            }, speed);
 
-      // Cleanup interval
-      return () => clearInterval(typingInterval);
-    }, startDelay);
+            return () => clearInterval(typingInterval);
+        }, startDelay);
 
-    return () => {
-      clearTimeout(startTimer);
-    };
-  }, [text, speed, startDelay, prefersReducedMotion, typeNextCharacter]);
+        return () => {
+            isMounted = false;
+            clearTimeout(startTimer);
+        };
+    }, [text, speed, startDelay, prefersReducedMotion]);
 
-  return { displayedText, isComplete };
+    return { displayedText, isComplete };
 }
 

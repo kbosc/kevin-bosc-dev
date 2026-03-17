@@ -1,4 +1,4 @@
-# 🚀 Portfolio & Showcase Technique - Kevin Bosc
+# 🚀 Portfolio & Showcase Technique
 
 Bienvenue sur mon espace personnel de développement. Ce dépôt regroupe mon CV interactif ainsi que divers projets et expérimentations techniques réalisés en marge de mes missions professionnelles.
 
