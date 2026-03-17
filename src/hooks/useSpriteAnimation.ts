@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 interface UseSpriteAnimationOptions {
   /** Array of image URLs representing the animation frames */
