@@ -38,29 +38,35 @@ export function useSpriteAnimation(options: UseSpriteAnimationOptions): UseSprit
     const animationFrameRef = useRef<number | null>(null);
     const lastFrameTimeRef = useRef<number>(0);
 
-    // ... (preload et stopAnimation restent identiques)
+    // Preload frames
+    useEffect(() => {
+        frames.forEach((frameSrc) => {
+            const img = new Image();
+            img.src = frameSrc;
+        });
+    }, [frames]);
 
     useEffect(() => {
         if (!isPlaying || frames.length === 0) return;
 
         const startIndex = direction === 'forward' ? 0 : frames.length - 1;
         const endIndex = direction === 'forward' ? frames.length - 1 : 0;
+        const frameDuration = 1000 / fps;
 
-        // ✅ On utilise une fonction de mise à jour pour éviter le warning de "cascading render"
-        // ou on vérifie si la valeur est déjà la bonne avant de setter.
-        setCurrentFrameIndex((prev) => (prev !== startIndex ? startIndex : prev));
-        setIsAnimating(true);
+        const timeoutId = setTimeout(() => {
+            setCurrentFrameIndex(startIndex);
+            setIsAnimating(true);
+        }, 0);
 
         lastFrameTimeRef.current = performance.now();
         let localIndex = startIndex;
 
         const animate = (timestamp: number) => {
             const elapsed = timestamp - lastFrameTimeRef.current;
+
             if (elapsed >= frameDuration) {
                 lastFrameTimeRef.current = timestamp;
-
-                if (direction === 'forward') localIndex += 1;
-                else localIndex -= 1;
+                localIndex = direction === 'forward' ? localIndex + 1 : localIndex - 1;
 
                 const hasReachedEnd = direction === 'forward'
                     ? localIndex > endIndex
@@ -81,13 +87,13 @@ export function useSpriteAnimation(options: UseSpriteAnimationOptions): UseSprit
         animationFrameRef.current = requestAnimationFrame(animate);
 
         return () => {
+            clearTimeout(timeoutId);
             if (animationFrameRef.current !== null) {
                 cancelAnimationFrame(animationFrameRef.current);
             }
         };
-    }, [isPlaying, direction, frames, frameDuration, onComplete]);
+    }, [isPlaying, direction, frames, fps, onComplete]);
 
     const currentFrame = frames[currentFrameIndex] ?? '';
     return { currentFrame, isAnimating };
 }
-
