@@ -1,63 +1,51 @@
-import {useCallback, useState} from 'react';
-import {Container} from '@/components/ui/Container/Container';
-import {ThemeToggle} from '@/components/ui/ThemeToggle/ThemeToggle';
+import { useTheme } from '@/hooks/useTheme';
 import styles from './Header.module.scss';
-import {NAV_LINKS} from './Header.constants';
 
-export function Header() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    const handleToggleMenu = useCallback(() => {
-        setIsMenuOpen((previous) => !previous);
-    }, []);
-
-    const handleLinkClick = useCallback(() => {
-        setIsMenuOpen(false);
-    }, []);
-
-    const menuLabel = isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu';
-
-    return (
-        <header className={styles.header}>
-            <Container>
-                <div className={styles.inner}>
-                    <a href="#top" className={styles.logo}>
-                        KB
-                    </a>
-
-                    <nav
-                        className={`${styles.nav} ${isMenuOpen ? styles.navOpen : ''}`}
-                        aria-label="Navigation principale"
-                    >
-                        {NAV_LINKS.map((link) => (
-                            <a
-                                key={link.href}
-                                href={link.href}
-                                className={styles.navLink}
-                                onClick={handleLinkClick}
-                            >
-                                {link.label}
-                            </a>
-                        ))}
-                    </nav>
-
-                    <div className={styles.actions}>
-                        <ThemeToggle/>
-
-                        <button
-                            className={styles.burger}
-                            onClick={handleToggleMenu}
-                            aria-label={menuLabel}
-                            aria-expanded={isMenuOpen}
-                        >
-                            <span className={`${styles.burgerLine} ${isMenuOpen ? styles.burgerOpen : ''}`}/>
-                            <span className={`${styles.burgerLine} ${isMenuOpen ? styles.burgerOpen : ''}`}/>
-                            <span className={`${styles.burgerLine} ${isMenuOpen ? styles.burgerOpen : ''}`}/>
-                        </button>
-                    </div>
-                </div>
-            </Container>
-        </header>
-    );
+interface NavProps {
+  onToggleTweaks: () => void;
 }
 
+export function Header({ onToggleTweaks }: NavProps) {
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <div className={styles.nav}>
+      <div className={`shell ${styles.inner}`}>
+        <a href="#top" className={styles.brand}>
+          <span className={styles.brandMark} />
+          <span>kbosc<span className={styles.brandDot}>.dev</span></span>
+        </a>
+
+        <nav className={styles.links}>
+          <a href="#deck">Deck</a>
+          <a href="#about">About</a>
+          <a href="#timeline">Parcours</a>
+          <a href="#skills">Stack</a>
+          <a href="#sidequests">Hors code</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div className={styles.cta}>
+          <button className={styles.toggle} aria-label="Changer le thème" onClick={toggleTheme}>
+            {theme === 'dark' ? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+              </svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+              </svg>
+            )}
+          </button>
+          <button className={styles.toggle} aria-label="Ouvrir les tweaks" onClick={onToggleTweaks} title="Tweaks">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,62 +1,72 @@
-@use '@/styles/variables' as *;
-@use '@/styles/mixins' as *;
+.section { padding: clamp(56px, 9vw, 110px) 0; }
 
-.about {
-  padding: $spacing-3xl 0;
-  background-color: var(--color-bg-secondary);
-}
+.head { margin-bottom: clamp(32px, 5vw, 56px); }
 
-.text {
-  font-size: $font-size-base;
-  color: var(--color-text-secondary);
-  line-height: $line-height-loose;
-  max-width: 720px;
-  margin-bottom: $spacing-2xl;
-
-  @include respond-to('tablet') {
-    font-size: $font-size-md;
-  }
-}
-
-.interestsGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: $spacing-md;
-
-  @include respond-to('tablet') {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.interestCard {
-  display: flex;
-  flex-direction: column;
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: inline-flex;
   align-items: center;
-  gap: $spacing-sm;
-  padding: $spacing-lg;
-  background-color: var(--color-bg-primary);
-  border: 1px solid var(--color-border-light);
-  border-radius: $radius-lg;
-  text-align: center;
-  transition:
-    transform $transition-fast,
-    box-shadow $transition-fast;
+  gap: 10px;
+  margin-bottom: 14px;
 
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--glow-hover);
+  &::before { content: ""; width: 24px; height: 1px; background: var(--accent); }
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0;
+
+  em { font-style: italic; color: var(--accent); }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 48px;
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
 }
 
-.interestEmoji {
-  font-size: $font-size-2xl;
-  line-height: 1;
+.bio {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.35;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: balance;
 }
 
-.interestLabel {
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  color: var(--color-text-primary);
+.statsCol {
+  display: grid;
+  gap: 14px;
+  align-content: start;
 }
 
+.stat {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
 
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.statVal {
+  font-family: var(--font-display);
+  font-size: 22px;
+}

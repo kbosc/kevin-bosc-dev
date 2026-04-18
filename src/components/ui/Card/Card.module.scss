@@ -1,0 +1,341 @@
+// ==========================================
+// Card — flippable portfolio card
+// ==========================================
+
+.wrapper {
+  position: relative;
+  border-radius: var(--radius-card);
+  aspect-ratio: 5 / 7;
+  transform-style: preserve-3d;
+  transition: transform 0.7s var(--ease);
+  cursor: pointer;
+  will-change: transform;
+
+  &.flipped {
+    transform: rotateY(180deg);
+  }
+
+  @media (hover: hover) {
+    &:not(.flipped):hover {
+      transform: translateY(-6px) rotateX(2deg);
+    }
+  }
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
+
+  .wrapper:hover & {
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--line-2);
+  }
+}
+
+.back {
+  transform: rotateY(180deg);
+  padding: 18px;
+  background: linear-gradient(180deg, var(--card-bg), var(--card-bg-2));
+}
+
+// Art area
+.art {
+  position: relative;
+  flex: 1.05;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+
+.artBg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(140deg, var(--accent-soft), var(--bg-2));
+}
+
+.artPattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image: repeating-linear-gradient(
+    45deg,
+    color-mix(in oklab, var(--ink) 8%, transparent) 0 1px,
+    transparent 1px 10px
+  );
+  mix-blend-mode: multiply;
+
+  :global([data-theme='dark']) & {
+    mix-blend-mode: screen;
+    opacity: 0.2;
+  }
+}
+
+.artLabel {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: var(--bg);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+}
+
+.typeBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink);
+  background: color-mix(in oklab, var(--bg) 80%, transparent);
+  backdrop-filter: blur(6px);
+  padding: 5px 9px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--line);
+}
+
+.emblem {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  aspect-ratio: 1;
+  opacity: 0.9;
+
+  svg { width: 100%; height: 100%; }
+}
+
+// Card head
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px 10px;
+  gap: 10px;
+  background: linear-gradient(to bottom, var(--card-bg-2), var(--card-bg));
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.cost {
+  display: flex;
+  gap: 3px;
+}
+
+.pip {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-2);
+
+  &.pipAccent {
+    background: var(--accent-soft);
+    border-color: color-mix(in oklab, var(--accent) 40%, transparent);
+    color: var(--ink);
+  }
+}
+
+// Card body
+.body {
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+  min-height: 110px;
+}
+
+.typeline {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.flavor {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.foot {
+  margin-top: auto;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  background: var(--card-bg-2);
+  flex-shrink: 0;
+}
+
+.stat {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+
+  small {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-3);
+    font-weight: 400;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+}
+
+.period {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+// Back side
+.backHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 12px;
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    margin: 0;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+}
+
+.backList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 6px;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 2px; }
+
+  li {
+    padding: 5px 0 5px 16px;
+    position: relative;
+
+    &::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 10px;
+      top: 6px;
+    }
+  }
+}
+
+.backStack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+}
+
+.backCta {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+// Rarity
+.wrapper[data-rarity="mythic"] .artBg {
+  background: linear-gradient(
+    140deg,
+    color-mix(in oklab, var(--accent) 28%, var(--bg-2)),
+    var(--bg-2) 60%,
+    color-mix(in oklab, var(--accent-2) 15%, var(--bg-2))
+  );
+}
+
+.wrapper[data-rarity="rare"] .artBg {
+  background: linear-gradient(
+    140deg,
+    color-mix(in oklab, var(--accent) 14%, var(--bg-2)),
+    var(--bg-2) 70%
+  );
+}

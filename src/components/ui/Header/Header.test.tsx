@@ -1,59 +1,36 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { Header } from './Header';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 
 function renderHeader() {
   return render(
     <ThemeProvider>
-      <Header />
+      <Header onToggleTweaks={vi.fn()} />
     </ThemeProvider>,
   );
 }
 
 describe('Header', () => {
-  it('renders the logo', () => {
+  it('renders the brand name', () => {
     renderHeader();
-
-    expect(screen.getByText('KB')).toBeInTheDocument();
+    expect(screen.getByText('kbosc')).toBeInTheDocument();
   });
 
-  it('renders the navigation with correct links', () => {
+  it('renders navigation links', () => {
     renderHeader();
-
-    const nav = screen.getByRole('navigation', {
-      name: /navigation principale/i,
-    });
-    expect(nav).toBeInTheDocument();
-
-    expect(screen.getByText('À propos')).toBeInTheDocument();
-    expect(screen.getByText('Expériences')).toBeInTheDocument();
-    expect(screen.getByText('Compétences')).toBeInTheDocument();
+    expect(screen.getByText('Deck')).toBeInTheDocument();
+    expect(screen.getByText('About')).toBeInTheDocument();
+    expect(screen.getByText('Contact')).toBeInTheDocument();
   });
 
-  it('renders the theme toggle', () => {
+  it('renders the theme toggle button', () => {
     renderHeader();
-
-    expect(screen.getByRole('switch')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /changer le thème/i })).toBeInTheDocument();
   });
 
-  it('renders a burger menu button', () => {
+  it('renders the tweaks button', () => {
     renderHeader();
-
-    const burger = screen.getByRole('button', { name: /ouvrir le menu/i });
-    expect(burger).toBeInTheDocument();
-    expect(burger).toHaveAttribute('aria-expanded', 'false');
-  });
-
-  it('toggles aria-expanded when burger is clicked', async () => {
-    const user = userEvent.setup();
-    renderHeader();
-
-    const burger = screen.getByRole('button', { name: /ouvrir le menu/i });
-    await user.click(burger);
-
-    expect(burger).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('button', { name: /ouvrir les tweaks/i })).toBeInTheDocument();
   });
 });
-

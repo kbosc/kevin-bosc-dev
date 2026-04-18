@@ -1,93 +1,47 @@
-import { motion } from 'framer-motion';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { useTypingEffect } from '@/hooks/useTypingEffect';
-import { Container } from '@/components/ui/Container/Container';
-import { Button } from '@/components/ui/Button/Button';
-import { ProfilePhoto } from './ProfilePhoto';
 import { personalInfo } from '@/data/personal';
 import styles from './Hero.module.scss';
 
-const FADE_IN_UP = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
-
 export function Hero() {
-  const prefersReducedMotion = useReducedMotion();
-
-  const { displayedText, isComplete } = useTypingEffect({
-    text: personalInfo.title,
-    speed: 80,
-    startDelay: 600,
-  });
-
-  // When reduced motion is preferred, skip all animations
-  const animationProps = prefersReducedMotion
-    ? {}
-    : {
-        initial: 'hidden' as const,
-        animate: 'visible' as const,
-        variants: FADE_IN_UP,
-        transition: { duration: 0.6 },
-      };
-
-  const showCursor = !isComplete;
-
+  const p = personalInfo;
   return (
-    <section className={styles.hero} aria-label="Introduction">
-      <Container>
-        <div className={styles.content}>
-          <motion.div {...animationProps}>
-            <ProfilePhoto />
-          </motion.div>
-
-          <motion.h1
-            className={styles.name}
-            {...animationProps}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            {personalInfo.name}
-          </motion.h1>
-
-          <div className={styles.titleWrapper}>
-            <span className={styles.title} role="heading" aria-level={2}>
-              {displayedText}
-              {showCursor && <span className={styles.cursor} aria-hidden="true" />}
-            </span>
-          </div>
-
-          <motion.p
-            className={styles.subtitle}
-            {...animationProps}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            5 ans d'expérience · 13 millions de visiteurs
-          </motion.p>
-
-          <motion.div
-            className={styles.actions}
-            {...animationProps}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            <Button
-                as="link"
-                href={`${import.meta.env.BASE_URL}Kevin-CV.pdf`}
-                download
-                className={styles.downloadButton}
-            >
-              📄 Télécharger mon CV
-            </Button>
-            <Button
-              as="link"
-              href={`mailto:${personalInfo.email}`}
-              variant="secondary"
-            >
-              ✉️ Me contacter
-            </Button>
-          </motion.div>
+    <section className={styles.hero} id="top">
+      <div className="shell">
+        <div className={styles.eyebrow}>
+          <span className={styles.dot} />
+          <span>Disponible pour un nouveau projet</span>
         </div>
-      </Container>
+        <h1 className={styles.h1}>
+          {p.name.split(' ')[0]}<br />
+          <em>{p.name.split(' ')[1]}</em> — Frontend<br />
+          React engineer.
+        </h1>
+        <p className={styles.sub}>
+          {p.tagline} Je code, je teste, je documente, je livre. Plateformes critiques, accessibilité, performances — terrain de jeu quotidien.
+        </p>
+        <div className={styles.meta}>
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 22s-8-9-8-13a8 8 0 1 1 16 0c0 4-8 13-8 13z" />
+              <circle cx="12" cy="9" r="3" />
+            </svg>
+            {p.location}
+          </span>
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="2" y="5" width="20" height="14" rx="2" />
+              <path d="m2 7 10 6 10-6" />
+            </svg>
+            {p.email}
+          </span>
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 2a10 10 0 1 0 10 10" />
+              <path d="M12 2v10l7 3" />
+            </svg>
+            5+ ans · React
+          </span>
+        </div>
+      </div>
     </section>
   );
 }
-

@@ -1,57 +1,54 @@
-import { motion } from 'framer-motion';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { Container } from '@/components/ui/Container/Container';
-import { SectionTitle } from '@/components/ui/SectionTitle/SectionTitle';
 import { personalInfo } from '@/data/personal';
 import styles from './Contact.module.scss';
 
-const SECTION_TITLE_ID = 'contact-title';
-
 export function Contact() {
-  const prefersReducedMotion = useReducedMotion();
-
-  const animationProps = prefersReducedMotion
-    ? {}
-    : {
-        initial: { opacity: 0, y: 20 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, amount: 0.3 },
-        transition: { duration: 0.5 },
-      };
+  const p = personalInfo;
+  const links = [
+    { k: 'Email', v: p.email, href: `mailto:${p.email}` },
+    { k: 'Téléphone', v: p.phone, href: `tel:${p.phone.replace(/\s/g, '')}` },
+    { k: 'GitHub', v: `@${p.alias}`, href: p.github },
+    { k: 'Localisation', v: p.location, href: null },
+  ];
 
   return (
-    <section
-      className={styles.contact}
-      aria-labelledby={SECTION_TITLE_ID}
-    >
-      <Container>
-        <SectionTitle id={SECTION_TITLE_ID}>Contact</SectionTitle>
-
-        <motion.div className={styles.content} {...animationProps}>
-          <p className={styles.text}>
-            Vous avez un projet ou une opportunité ? N'hésitez pas à me
-            contacter, je serai ravi d'échanger avec vous.
-          </p>
-
-          <div className={styles.links}>
-            <a
-              href={`mailto:${personalInfo.email}`}
-              className={styles.contactLink}
-            >
-              <span aria-hidden="true">✉️</span>
-              {personalInfo.email}
-            </a>
-            <a
-              href={`tel:${personalInfo.phone.replace(/\s/g, '')}`}
-              className={styles.contactLink}
-            >
-              <span aria-hidden="true">📱</span>
-              {personalInfo.phone}
-            </a>
+    <section className={styles.section} id="contact">
+      <div className="shell">
+        <div className={styles.inner}>
+          <div className="reveal">
+            <div className={styles.kicker}>Contact · 06</div>
+            <h2 className={styles.title}>On en <em>parle</em> ?</h2>
+            <p className={styles.desc}>Dispo pour discuter mission, CDI ou juste pour échanger sur un projet. Le plus simple : un mail.</p>
           </div>
-        </motion.div>
-      </Container>
+          <div className={`${styles.links} reveal`}>
+            {links.map((l) => {
+              const inner = (
+                <>
+                  <div>
+                    <span className={styles.linkLabel}>{l.k}</span>
+                    <span className={styles.linkVal}>{l.v}</span>
+                  </div>
+                  <span className={styles.arrow}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <path d="M5 12h14M13 5l7 7-7 7" />
+                    </svg>
+                  </span>
+                </>
+              );
+              return l.href ? (
+                <a
+                  key={l.k}
+                  className={styles.link}
+                  href={l.href}
+                  target={l.href.startsWith('http') ? '_blank' : undefined}
+                  rel="noopener noreferrer"
+                >{inner}</a>
+              ) : (
+                <div key={l.k} className={styles.link} style={{ cursor: 'default' }}>{inner}</div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
-

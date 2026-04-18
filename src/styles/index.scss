@@ -1,17 +1,176 @@
-// ==========================================
-// Global styles — Entry point
-// ==========================================
-
 @use 'reset';
 @use 'themes';
-@use 'typography';
-@use 'animations';
 
 body {
-  background-color: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
 }
 
+a { color: inherit; text-decoration: none; }
+
+// Background grid
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+// Shell container
+.shell {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 32px);
+}
+
+// Scroll reveal
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+
+  &.is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// Timeline reveal
+.tl-item {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.7s var(--ease);
+
+  &.is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// Custom cursor
+.cursor,
+.cursor-dot {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  transition: width 0.2s var(--ease), height 0.2s var(--ease), opacity 0.2s, background 0.2s;
+}
+
+.cursor {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  transition: width 0.2s var(--ease), height 0.2s var(--ease), border-color 0.2s, background 0.2s;
+
+  &.is-hover {
+    width: 52px;
+    height: 52px;
+    border-color: var(--accent);
+  }
+
+  &.is-hover-card {
+    width: 72px;
+    height: 72px;
+    border-color: var(--accent);
+    background: color-mix(in oklab, var(--accent) 12%, transparent);
+  }
+}
+
+.cursor-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  white-space: nowrap;
+  color: var(--accent);
+  transition: opacity 0.2s;
+}
+
+.cursor.is-hover-card .cursor-label { opacity: 1; }
+
+@media (max-width: 900px), (hover: none) {
+  .cursor, .cursor-dot { display: none; }
+  body { cursor: auto; }
+}
+
+body.has-custom-cursor { cursor: none; }
+body.has-custom-cursor a,
+body.has-custom-cursor button { cursor: none; }
+
+// Konami
+@keyframes konamiFade {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.konami-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, color-mix(in oklab, var(--accent) 30%, transparent), transparent 60%);
+  animation: konamiFade 2.5s forwards;
+}
+
+.konami-msg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  pointer-events: none;
+  font-family: var(--font-display);
+  font-size: 48px;
+  color: var(--accent);
+  text-shadow: 0 0 30px color-mix(in oklab, var(--accent) 60%, transparent);
+  animation: konamiFade 2.5s forwards;
+  text-align: center;
+}
+
+// Pulse animation (hero eyebrow dot)
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 30%, transparent); }
+  50%       { box-shadow: 0 0 0 8px color-mix(in oklab, var(--accent) 0%, transparent); }
+}
+
+// MTG mode off
+body[data-mtg='off'] .card-cost,
+body[data-mtg='off'] .card-emblem,
+body[data-mtg='off'] .card-typeline { display: none; }
+
+// Density
+body[data-density='compact'] { --density: 0.7; }
+body[data-density='spacious'] { --density: 1.3; }
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}

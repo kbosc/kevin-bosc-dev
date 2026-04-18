@@ -1,0 +1,112 @@
+.section { padding: clamp(56px, 9vw, 110px) 0; }
+
+.head { margin-bottom: clamp(32px, 5vw, 56px); }
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+
+  &::before { content: ""; width: 24px; height: 1px; background: var(--accent); }
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0;
+
+  em { font-style: italic; color: var(--accent); }
+}
+
+.desc {
+  color: var(--ink-2);
+  max-width: 640px;
+  margin-top: 14px;
+  font-size: 16px;
+  text-wrap: pretty;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.quest {
+  position: relative;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--card-bg);
+  overflow: hidden;
+  transition: all 0.3s var(--ease);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top right, color-mix(in oklab, var(--accent) 15%, transparent), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+    pointer-events: none;
+  }
+
+  &:hover { border-color: var(--accent); transform: translateY(-3px); }
+  &:hover::after { opacity: 1; }
+
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.6;
+    margin: 0 0 20px;
+    text-wrap: pretty;
+  }
+}
+
+.questKicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.stats {
+  display: flex;
+  gap: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+
+  div { display: flex; flex-direction: column; gap: 2px; }
+}
+
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+}
+
+.statVal {
+  font-family: var(--font-display);
+  font-size: 16px;
+}
