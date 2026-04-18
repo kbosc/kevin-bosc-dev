@@ -1,46 +1,46 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import type { Card as CardType } from '@/types';
 import styles from './Card.module.scss';
 
-// Abstract emblems — original shapes, no copyrighted assets
+// Hoisted static SVGs — never recreated between renders
+const EMBLEM_EXPERIENCE = (
+  <svg viewBox="0 0 100 100" fill="none">
+    <circle cx="50" cy="50" r="32" stroke="currentColor" strokeWidth="1.5" opacity=".4" />
+    <polygon points="50,20 72,60 28,60" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <circle cx="50" cy="52" r="6" fill="currentColor" />
+  </svg>
+);
+
+const EMBLEM_PROJECT = (
+  <svg viewBox="0 0 100 100" fill="none">
+    <rect x="25" y="25" width="50" height="50" stroke="currentColor" strokeWidth="1.5" opacity=".4" transform="rotate(45 50 50)" />
+    <rect x="38" y="38" width="24" height="24" fill="currentColor" transform="rotate(45 50 50)" />
+  </svg>
+);
+
 function CardEmblem({ type, rarity }: { type: string; rarity: string }) {
-  const marks: Record<string, React.ReactElement> = {
-    experience: (
-      <svg viewBox="0 0 100 100" fill="none">
-        <circle cx="50" cy="50" r="32" stroke="currentColor" strokeWidth="1.5" opacity=".4" />
-        <polygon points="50,20 72,60 28,60" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <circle cx="50" cy="52" r="6" fill="currentColor" />
-      </svg>
-    ),
-    project: (
-      <svg viewBox="0 0 100 100" fill="none">
-        <rect x="25" y="25" width="50" height="50" stroke="currentColor" strokeWidth="1.5" opacity=".4" transform="rotate(45 50 50)" />
-        <rect x="38" y="38" width="24" height="24" fill="currentColor" transform="rotate(45 50 50)" />
-      </svg>
-    ),
-  };
   return (
     <div
       className={`${styles.emblem} card-emblem`}
       style={{ color: rarity === 'mythic' ? 'var(--accent)' : 'var(--ink-2)' }}
     >
-      {marks[type] ?? marks.project}
+      {type === 'experience' ? EMBLEM_EXPERIENCE : EMBLEM_PROJECT}
     </div>
   );
 }
 
 function CardArt({ card }: { card: CardType }) {
-  const seed = useMemo(() => {
+  const { angle, dots } = useMemo(() => {
     let h = 0;
     for (let i = 0; i < card.id.length; i++) h = (h * 31 + card.id.charCodeAt(i)) >>> 0;
-    return h;
+    return {
+      angle: h % 180,
+      dots: Array.from({ length: 5 }, (_, i) => {
+        const s = (h >> (i * 3)) & 0xff;
+        return { x: 10 + (s % 80), y: 10 + ((s >> 3) % 80), r: 1 + (s % 3) };
+      }),
+    };
   }, [card.id]);
-
-  const angle = seed % 180;
-  const dots = Array.from({ length: 5 }, (_, i) => {
-    const s = (seed >> (i * 3)) & 0xff;
-    return { x: 10 + (s % 80), y: 10 + ((s >> 3) % 80), r: 1 + (s % 3) };
-  });
 
   return (
     <div className={styles.art}>
@@ -70,7 +70,7 @@ interface CardProps {
   style?: React.CSSProperties;
 }
 
-export function Card({ card, flipped, onFlip, style }: CardProps) {
+export const Card = memo(function Card({ card, flipped, onFlip, style }: CardProps) {
   const pipCount = Math.min(3, Math.max(1, Math.round((card.power || 1) / 3)));
 
   const handleKey = (e: React.KeyboardEvent) => {
@@ -148,4 +148,4 @@ export function Card({ card, flipped, onFlip, style }: CardProps) {
       </div>
     </div>
   );
-}
+});

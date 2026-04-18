@@ -26,14 +26,19 @@ function PortfolioApp() {
   const [tweaksOpen, setTweaksOpen] = useState(false);
   const [tweakState, setTweakState] = useState<TweakState>(() => {
     try {
-      return { ...TWEAK_DEFAULTS, ...(JSON.parse(localStorage.getItem('kb-tweaks') || '{}')) };
+      const raw = localStorage.getItem('kb-tweaks:v1');
+      return raw ? { ...TWEAK_DEFAULTS, ...JSON.parse(raw) } : TWEAK_DEFAULTS;
     } catch {
       return TWEAK_DEFAULTS;
     }
   });
 
   useEffect(() => {
-    localStorage.setItem('kb-tweaks', JSON.stringify(tweakState));
+    try {
+      localStorage.setItem('kb-tweaks:v1', JSON.stringify(tweakState));
+    } catch {
+      // throws in incognito/private browsing or when quota exceeded
+    }
   }, [tweakState]);
 
   useReveal();
