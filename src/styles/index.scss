@@ -152,11 +152,6 @@ body.has-custom-cursor button { cursor: none; }
   text-align: center;
 }
 
-// Pulse animation (hero eyebrow dot)
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 30%, transparent); }
-  50%       { box-shadow: 0 0 0 8px color-mix(in oklab, var(--accent) 0%, transparent); }
-}
 
 // MTG mode off
 body[data-mtg='off'] .card-cost,
