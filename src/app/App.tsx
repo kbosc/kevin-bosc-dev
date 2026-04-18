@@ -18,8 +18,8 @@ import type { TweakState } from '@/types';
 const TWEAK_DEFAULTS: TweakState = {
   accentHue: 75,
   density: 'normal',
-  mtg: 'on',
-  cursor: 'on',
+  mtg: 'off',
+  cursor: 'off',
 };
 
 function PortfolioApp() {
