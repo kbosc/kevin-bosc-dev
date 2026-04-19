@@ -18,7 +18,7 @@ import type { TweakState } from '@/types';
 const TWEAK_DEFAULTS: TweakState = {
   accentHue: 75,
   density: 'normal',
-  mtg: 'off',
+  mtg: 'on',
   cursor: 'off',
 };
 

@@ -1,5 +1,11 @@
+import React, { memo, useMemo, useContext } from 'react';
 import type { Card as CardType } from '@/types';
+import { ThemeContext } from '@/contexts/ThemeContext';
+import { useTweakAttr } from '@/hooks/useTweakAttr';
 import styles from './Card.module.scss';
+
+const MTG_ART_LIGHT = 'https://api.scryfall.com/cards/named?exact=Plains&set=neo&format=image&version=art_crop';
+const MTG_ART_DARK  = 'https://api.scryfall.com/cards/named?exact=Swamp&set=neo&format=image&version=art_crop';
 
 // Hoisted static SVGs — never recreated between renders
 const EMBLEM_EXPERIENCE = (
@@ -29,6 +35,10 @@ function CardEmblem({ type, rarity }: { type: string; rarity: string }) {
 }
 
 function CardArt({ card }: { card: CardType }) {
+  const themeCtx = useContext(ThemeContext);
+  const isDark = themeCtx?.isDark ?? false;
+  const mtg = useTweakAttr('data-mtg');
+
   const { angle, dots } = useMemo(() => {
     let h = 0;
     for (let i = 0; i < card.id.length; i++) h = (h * 31 + card.id.charCodeAt(i)) >>> 0;
@@ -41,19 +51,35 @@ function CardArt({ card }: { card: CardType }) {
     };
   }, [card.id]);
 
+  const screenshot = isDark
+    ? (card.screenshotDark ?? card.screenshotLight)
+    : card.screenshotLight;
+
+  const hasScreenshot = Boolean(screenshot);
+  const showMtgArt = !hasScreenshot && mtg === 'on';
+  const mtgArtSrc = isDark ? MTG_ART_DARK : MTG_ART_LIGHT;
+
   return (
     <div className={styles.art}>
       <div className={`${styles.artBg} artBg`} />
-      <div className={styles.artPattern} style={{ transform: `rotate(${angle}deg) scale(1.6)` }} />
-      <svg
-        viewBox="0 0 100 100"
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.3 }}
-      >
-        {dots.map((d, i) => (
-          <circle key={i} cx={d.x} cy={d.y} r={d.r} fill="var(--accent)" />
-        ))}
-      </svg>
-      <CardEmblem type={card.type} rarity={card.rarity} />
+      {hasScreenshot ? (
+        <img src={screenshot} alt="" aria-hidden className={styles.artScreenshot} />
+      ) : showMtgArt ? (
+        <img src={mtgArtSrc} alt="" aria-hidden className={styles.artScreenshot} />
+      ) : (
+        <>
+          <div className={styles.artPattern} style={{ transform: `rotate(${angle}deg) scale(1.6)` }} />
+          <svg
+            viewBox="0 0 100 100"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.3 }}
+          >
+            {dots.map((d, i) => (
+              <circle key={i} cx={d.x} cy={d.y} r={d.r} fill="var(--accent)" />
+            ))}
+          </svg>
+          <CardEmblem type={card.type} rarity={card.rarity} />
+        </>
+      )}
       <div className={styles.typeBadge}>
         {card.type === 'experience' ? 'Expérience' : 'Projet'}
       </div>
@@ -110,8 +136,8 @@ export const Card = memo(function Card({ card, flipped, onFlip, style }: CardPro
         </div>
         <div className={styles.foot}>
           <div className={styles.stat}>
-              {card.power}
-              <small>{card.type === 'experience' ? 'impact' : 'scope'}</small>
+            {card.power}
+            <small>{card.type === 'experience' ? 'impact' : 'scope'}</small>
           </div>
           <div className={styles.period}>{card.period}</div>
           <div className={styles.stat} style={{ textAlign: 'right' }}>
