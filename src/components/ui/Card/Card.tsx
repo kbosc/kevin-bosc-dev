@@ -1,5 +1,6 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo, useMemo, useContext } from 'react';
 import type { Card as CardType } from '@/types';
+import { ThemeContext } from '@/contexts/ThemeContext';
 import styles from './Card.module.scss';
 
 // Hoisted static SVGs — never recreated between renders
@@ -30,6 +31,9 @@ function CardEmblem({ type, rarity }: { type: string; rarity: string }) {
 }
 
 function CardArt({ card }: { card: CardType }) {
+  const themeCtx = useContext(ThemeContext);
+  const isDark = themeCtx?.isDark ?? false;
+
   const { angle, dots } = useMemo(() => {
     let h = 0;
     for (let i = 0; i < card.id.length; i++) h = (h * 31 + card.id.charCodeAt(i)) >>> 0;
@@ -42,19 +46,34 @@ function CardArt({ card }: { card: CardType }) {
     };
   }, [card.id]);
 
+  const screenshot = isDark
+    ? (card.screenshotDark ?? card.screenshotLight)
+    : card.screenshotLight;
+
   return (
     <div className={styles.art}>
       <div className={`${styles.artBg} artBg`} />
-      <div className={styles.artPattern} style={{ transform: `rotate(${angle}deg) scale(1.6)` }} />
-      <svg
-        viewBox="0 0 100 100"
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.3 }}
-      >
-        {dots.map((d, i) => (
-          <circle key={i} cx={d.x} cy={d.y} r={d.r} fill="var(--accent)" />
-        ))}
-      </svg>
-      <CardEmblem type={card.type} rarity={card.rarity} />
+      {screenshot ? (
+        <img
+          src={screenshot}
+          alt=""
+          aria-hidden
+          className={styles.artScreenshot}
+        />
+      ) : (
+        <>
+          <div className={styles.artPattern} style={{ transform: `rotate(${angle}deg) scale(1.6)` }} />
+          <svg
+            viewBox="0 0 100 100"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.3 }}
+          >
+            {dots.map((d, i) => (
+              <circle key={i} cx={d.x} cy={d.y} r={d.r} fill="var(--accent)" />
+            ))}
+          </svg>
+          <CardEmblem type={card.type} rarity={card.rarity} />
+        </>
+      )}
       <div className={styles.typeBadge}>
         {card.type === 'experience' ? 'Expérience' : 'Projet'}
       </div>

@@ -1,4 +1,9 @@
 import type { Card } from '@/types';
+import transilienLight from '@/assets/transilienLight.png';
+import transilienDark from '@/assets/transilienDark.png';
+import mbsLight from '@/assets/MBSLight.png';
+import kboscLight from '@/assets/kboscLight.png';
+import kboscDark from '@/assets/kboscDark.png';
 
 export const cards: Card[] = [
   {
@@ -26,6 +31,8 @@ export const cards: Card[] = [
     ],
     stack: ['React', 'Zustand', 'TypeScript', 'SCSS', 'Cypress', 'Storybook', 'Vite', 'Docker', 'Figma'],
     team: '3 Dev full stack · 2 Drupal · 2 QA · 3 PO · Scrum Master · DM',
+    screenshotLight: transilienLight,
+    screenshotDark: transilienDark,
   },
   {
     id: 'roodeo',
@@ -95,6 +102,7 @@ export const cards: Card[] = [
     ],
     stack: ['React', 'Tailwind CSS', 'Redux', 'react-query', 'Axios', 'Figma'],
     team: 'Lead · PO/SM · Full stack · Frontend',
+    screenshotLight: mbsLight,
   },
   {
     id: 'catch-pokemon',
@@ -137,5 +145,7 @@ export const cards: Card[] = [
       'Accessibilité A11y',
     ],
     stack: ['React', 'TypeScript', 'Three.js', 'SCSS', 'Vitest', 'Playwright'],
+    screenshotLight: kboscLight,
+    screenshotDark: kboscDark,
   },
 ];

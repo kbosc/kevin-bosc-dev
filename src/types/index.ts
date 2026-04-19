@@ -23,6 +23,8 @@ export interface Card {
   highlights: string[];
   stack: string[];
   team?: string;
+  screenshotLight?: string;
+  screenshotDark?: string;
 }
 
 export interface SideQuest {

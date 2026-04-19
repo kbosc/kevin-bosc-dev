@@ -79,6 +79,15 @@
   }
 }
 
+.artScreenshot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
 .artLabel {
   position: absolute;
   left: 14px;
@@ -321,6 +330,9 @@
   align-items: center;
   gap: 6px;
 }
+
+// MTG mode off — hide power/toughness stats
+:global(body[data-mtg='off']) .stat { display: none; }
 
 // Rarity
 .wrapper[data-rarity="mythic"] .artBg {
