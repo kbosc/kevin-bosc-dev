@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { SkipToContent } from '@/components/ui/SkipToContent/SkipToContent';
 import { Header } from '@/components/ui/Header/Header';
 import { CustomCursor } from '@/components/ui/CustomCursor/CustomCursor';
 import { TweaksPanel } from '@/components/ui/TweaksPanel/TweaksPanel';
@@ -48,6 +49,7 @@ function PortfolioApp() {
     <>
       <div className="bg-grid" />
       <CustomCursor enabled={tweakState.cursor === 'on'} />
+      <SkipToContent />
       <Header onToggleTweaks={() => setTweaksOpen((v) => !v)} />
       <main id="main-content">
         <Hero />

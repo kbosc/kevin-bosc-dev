@@ -24,20 +24,19 @@ describe('App', () => {
     render(<App />);
 
     expect(
-      screen.getByRole('navigation', { name: /navigation principale/i }),
+      screen.getByRole('navigation'),
     ).toBeInTheDocument();
   });
 
   it('renders all major sections', () => {
     render(<App />);
 
-    expect(screen.getByText('Kevin Bosc')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /à propos/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /expériences professionnelles/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /compétences/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /formation/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /projets/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /contact/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /kbosc\.dev/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /l'histoire/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /parcours/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /stack/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /side quests/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /on en/i })).toBeInTheDocument();
   });
 
   it('renders the footer', () => {

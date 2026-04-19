@@ -1,50 +1,24 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Hero } from './Hero';
 
-// Mock hooks
-vi.mock('@/hooks/useReducedMotion', () => ({
-  useReducedMotion: () => false,
-}));
-
-vi.mock('@/hooks/useTypingEffect', () => ({
-  useTypingEffect: () => ({
-    displayedText: 'Développeur Frontend React',
-    isComplete: true,
-  }),
-}));
-
-vi.mock('@/hooks/useTheme', () => ({
-  useTheme: () => ({ theme: 'light', isDark: false, toggleTheme: vi.fn() }),
-}));
-
 describe('Hero', () => {
-  it('renders the hero section with an Introduction label', () => {
-    render(<Hero />);
-
-    const section = screen.getByRole('region', { name: /introduction/i });
-    expect(section).toBeInTheDocument();
+  it('matches the snapshot', () => {
+    const { baseElement } = render(<Hero />);
+    expect(baseElement).toMatchSnapshot();
   });
 
-  it('renders Kevin Bosc name as heading', () => {
+  it('renders the eyebrow text', () => {
     render(<Hero />);
 
-    const heading = screen.getByRole('heading', { name: /kevin bosc/i });
-    expect(heading).toBeInTheDocument();
+    expect(screen.getByText(/disponible pour un nouveau projet/i)).toBeInTheDocument();
   });
 
-  it('renders a download CV link', () => {
+  it('renders location and email info', () => {
     render(<Hero />);
 
-    const downloadLink = screen.getByRole('link', { name: /télécharger mon cv/i });
-    expect(downloadLink).toBeInTheDocument();
-  });
-
-  it('renders a contact link', () => {
-    render(<Hero />);
-
-    const contactLink = screen.getByRole('link', { name: /me contacter/i });
-    expect(contactLink).toBeInTheDocument();
+    expect(screen.getByText(/paris, fr/i)).toBeInTheDocument();
+    expect(screen.getByText(/bosc\.kev@gmail\.com/i)).toBeInTheDocument();
   });
 });
 

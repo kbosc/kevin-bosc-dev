@@ -12,7 +12,7 @@ describe('Skills', () => {
     render(<Skills />);
 
     expect(
-      screen.getByRole('heading', { name: /compétences/i }),
+      screen.getByRole('heading', { name: /La stack/i })
     ).toBeInTheDocument();
   });
 
@@ -20,8 +20,11 @@ describe('Skills', () => {
     render(<Skills />);
 
     expect(screen.getByText('Langages & Web')).toBeInTheDocument();
-    expect(screen.getByText('Frameworks & Librairies')).toBeInTheDocument();
+    expect(screen.getByText('Frameworks')).toBeInTheDocument();
     expect(screen.getByText('Testing')).toBeInTheDocument();
+    expect(screen.getByText('Outils')).toBeInTheDocument();
+    expect(screen.getByText('Cloud & CI')).toBeInTheDocument();
+    expect(screen.getByText('Méthodo')).toBeInTheDocument();
   });
 
   it('renders individual skill tags', () => {

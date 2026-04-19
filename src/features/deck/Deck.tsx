@@ -18,6 +18,7 @@ export function Deck() {
   const [mobileIdx, setMobileIdx] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [dragX, setDragX] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
   const dragStart = useRef<number | null>(null);
 
   // Konami cascade flip
@@ -49,6 +50,7 @@ export function Deck() {
 
   const onTouchStart = (e: React.TouchEvent) => {
     dragStart.current = e.touches[0].clientX;
+    setIsDragging(true);
   };
   const onTouchMove = (e: React.TouchEvent) => {
     if (dragStart.current == null) return;
@@ -61,6 +63,7 @@ export function Deck() {
     }
     setDragX(0);
     dragStart.current = null;
+    setIsDragging(false);
   };
 
   return (
@@ -105,7 +108,7 @@ export function Deck() {
                   transform: `translateX(${offset * 20 + (offset === 0 ? dragX : 0)}px) translateY(${absOffset * 10}px) scale(${1 - absOffset * 0.05}) rotate(${offset === 0 ? dragX * 0.05 : offset * 2}deg)`,
                   zIndex: 10 - absOffset,
                   opacity: absOffset > 1 ? 0.5 : 1,
-                  transition: dragStart.current ? 'none' : 'transform .4s var(--ease), opacity .4s var(--ease)',
+                  transition: isDragging ? 'none' : 'transform .4s var(--ease), opacity .4s var(--ease)',
                   position: 'absolute',
                   left: '10%',
                   right: '10%',

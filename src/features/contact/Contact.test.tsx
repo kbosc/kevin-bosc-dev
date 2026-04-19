@@ -7,7 +7,7 @@ describe('Contact', () => {
     render(<Contact />);
 
     expect(
-      screen.getByRole('heading', { name: /contact/i }),
+      screen.getByRole('heading', { name: /on en parle/i }),
     ).toBeInTheDocument();
   });
 
@@ -15,7 +15,7 @@ describe('Contact', () => {
     render(<Contact />);
 
     const emailLink = screen.getByRole('link', {
-      name: /bosc\.kev@gmail\.com/i,
+      name: /email/i,
     });
     expect(emailLink).toHaveAttribute('href', 'mailto:bosc.kev@gmail.com');
   });
@@ -24,7 +24,7 @@ describe('Contact', () => {
     render(<Contact />);
 
     const phoneLink = screen.getByRole('link', {
-      name: /06 86 85 32 37/i,
+      name: /téléphone/i,
     });
     expect(phoneLink).toHaveAttribute('href', 'tel:0686853237');
   });

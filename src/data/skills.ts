@@ -15,7 +15,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     category: 'Outils',
-    skills: ['VS Code', 'IntelliJ', 'Figma', 'Vite', 'Webpack', 'ESLint', 'Postman', 'Bash', 'Git'],
+    skills: ['VS Code', 'IntelliJ', 'Figma', 'Vite', 'Webpack', 'ESLint', 'Bash', 'Git'],
   },
   {
     category: 'Cloud & CI',
