@@ -56,10 +56,14 @@ export function Deck() {
     if (dragStart.current == null) return;
     setDragX(e.touches[0].clientX - dragStart.current);
   };
-  const onTouchEnd = () => {
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const isTap = Math.abs(dragX) < 10;
     if (Math.abs(dragX) > 80) {
       if (dragX < 0 && mobileIdx < filtered.length - 1) setMobileIdx((i) => i + 1);
       else if (dragX > 0 && mobileIdx > 0) setMobileIdx((i) => i - 1);
+    } else if (isTap) {
+      e.preventDefault(); // prevent ghost click that would double-flip
+      toggleFlip(filtered[mobileIdx].id);
     }
     setDragX(0);
     dragStart.current = null;
@@ -121,7 +125,7 @@ export function Deck() {
                     key={c.id}
                     card={c}
                     flipped={!!flipped[c.id]}
-                    onFlip={() => offset === 0 && toggleFlip(c.id)}
+                    onFlip={() => toggleFlip(c.id)}
                     style={style}
                   />
                 );
