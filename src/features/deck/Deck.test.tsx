@@ -157,6 +157,20 @@ describe('Deck', () => {
       expect(activeCard.className).toContain('flipped');
     });
 
+    it('does not double-flip when a ghost click fires after the tap (DevTools simulation)', () => {
+      render(<Deck />);
+
+      const activeCard = screen.getAllByRole('button', { name: /carte/i })[0];
+
+      // touchstart → touchend (tap handled by onTouchEnd) → ghost click (onClick)
+      fireEvent.touchStart(activeCard, { touches: [{ clientX: 200, clientY: 0 }] });
+      fireEvent.touchEnd(activeCard, { changedTouches: [{ clientX: 200, clientY: 0 }] });
+      fireEvent.click(activeCard); // ghost click that DevTools emits
+
+      // Net result: flipped once, not twice
+      expect(activeCard.className).toContain('flipped');
+    });
+
     it('does not flip when the gesture is a swipe (movement > 80px)', () => {
       render(<Deck />);
 

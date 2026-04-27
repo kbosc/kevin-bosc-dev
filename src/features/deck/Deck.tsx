@@ -20,6 +20,7 @@ export function Deck() {
   const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const dragStart = useRef<number | null>(null);
+  const justHandledTap = useRef(false);
 
   // Konami cascade flip
   useEffect(() => {
@@ -56,13 +57,15 @@ export function Deck() {
     if (dragStart.current == null) return;
     setDragX(e.touches[0].clientX - dragStart.current);
   };
-  const onTouchEnd = (e: React.TouchEvent) => {
+  const onTouchEnd = (_e: React.TouchEvent) => {
     const isTap = Math.abs(dragX) < 10;
     if (Math.abs(dragX) > 80) {
       if (dragX < 0 && mobileIdx < filtered.length - 1) setMobileIdx((i) => i + 1);
       else if (dragX > 0 && mobileIdx > 0) setMobileIdx((i) => i - 1);
     } else if (isTap) {
-      e.preventDefault(); // prevent ghost click that would double-flip
+      justHandledTap.current = true;
+      // On real iOS the ghost click never fires — reset the flag after the window
+      setTimeout(() => { justHandledTap.current = false; }, 400);
       toggleFlip(filtered[mobileIdx].id);
     }
     setDragX(0);
@@ -125,7 +128,10 @@ export function Deck() {
                     key={c.id}
                     card={c}
                     flipped={!!flipped[c.id]}
-                    onFlip={() => toggleFlip(c.id)}
+                    onFlip={() => {
+                      if (justHandledTap.current) { justHandledTap.current = false; return; }
+                      toggleFlip(c.id);
+                    }}
                     style={style}
                   />
                 );
