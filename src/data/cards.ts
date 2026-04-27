@@ -112,6 +112,7 @@ export const cards: Card[] = [
     subtitle: 'Jeu de collection — API publique',
     period: '2024',
     scope: 'Projet perso',
+    url: 'https://github.com/kbosc/PokemonGallery',
     power: 1,
     toughness: 1,
     flavor: '« Scroll infini, capture et persistance — entraînement fullstack front. »',
