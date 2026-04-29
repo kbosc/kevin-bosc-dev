@@ -1,5 +1,5 @@
 .hero {
-  padding: clamp(56px, 10vw, 120px) 0 clamp(40px, 7vw, 80px);
+  padding: calc(clamp(56px, 10vw, 120px) * var(--density)) 0 calc(clamp(40px, 7vw, 80px) * var(--density));
   position: relative;
 }
 

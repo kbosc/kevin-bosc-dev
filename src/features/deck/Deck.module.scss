@@ -1,4 +1,4 @@
-.section { padding: clamp(56px, 9vw, 110px) 0; }
+.section { padding: calc(var(--section-py) * var(--density)) 0; }
 
 .head { margin-bottom: clamp(32px, 5vw, 56px); }
 

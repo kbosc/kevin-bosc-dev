@@ -2,14 +2,14 @@
 @use '@/styles/mixins' as *;
 
 .projects {
-  padding: $spacing-3xl 0;
+  padding: calc(#{$spacing-3xl} * var(--density)) 0;
   background-color: var(--color-bg-secondary);
 }
 
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: $spacing-lg;
+  gap: calc(#{$spacing-lg} * var(--density));
 
   @include respond-to('tablet') {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));

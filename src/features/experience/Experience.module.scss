@@ -2,7 +2,7 @@
 @use '@/styles/mixins' as *;
 
 .experience {
-  padding: $spacing-3xl 0;
+  padding: calc(#{$spacing-3xl} * var(--density)) 0;
   position: relative;
   overflow: hidden;
 }

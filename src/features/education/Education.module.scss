@@ -2,13 +2,13 @@
 @use '@/styles/mixins' as *;
 
 .education {
-  padding: $spacing-3xl 0;
+  padding: calc(#{$spacing-3xl} * var(--density)) 0;
 }
 
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: $spacing-lg;
+  gap: calc(#{$spacing-lg} * var(--density));
 
   @include respond-to('tablet') {
     grid-template-columns: 1fr 1fr;
