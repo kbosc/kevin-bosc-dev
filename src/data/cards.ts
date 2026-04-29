@@ -1,6 +1,8 @@
 import type { Card } from '@/types';
 import transilienLight from '@/assets/transilienLight.png';
 import transilienDark from '@/assets/transilienDark.png';
+import pokeLight from '@/assets/pokeLight.png';
+import pokeDark from '@/assets/pokeDark.png';
 import mbsLight from '@/assets/MBSLight.png';
 import kboscLight from '@/assets/kboscLight.png';
 import kboscDark from '@/assets/kboscDark.png';
@@ -112,7 +114,7 @@ export const cards: Card[] = [
     subtitle: 'Jeu de collection — API publique',
     period: '2024',
     scope: 'Projet perso',
-    url: 'https://github.com/kbosc/PokemonGallery',
+    url: 'https://pokemon-gallery-five.vercel.app',
     power: 1,
     toughness: 1,
     flavor: '« Scroll infini, capture et persistance — entraînement fullstack front. »',
@@ -125,6 +127,8 @@ export const cards: Card[] = [
       'Persistance localStorage',
     ],
     stack: ['React', 'Styled Components', 'Axios', 'tanstack-query', 'Git'],
+    screenshotLight: pokeLight,
+    screenshotDark: pokeDark,
   },
   {
     id: 'this-portfolio',
