@@ -171,6 +171,22 @@ describe('Deck', () => {
       expect(activeCard.className).toContain('flipped');
     });
 
+    it('flips on a tap with mild finger jitter (movement < swipe threshold)', () => {
+      render(<Deck />);
+
+      const activeCard = screen.getAllByRole('button', { name: /carte/i })[0];
+      expect(activeCard.className).not.toContain('flipped');
+
+      // Real-world iOS taps often emit a touchmove with 15–30px of jitter
+      // before touchend. This used to fall into a dead zone (10 < dx < 80)
+      // where nothing happened.
+      fireEvent.touchStart(activeCard, { touches: [{ clientX: 200, clientY: 0 }] });
+      fireEvent.touchMove(activeCard, { touches: [{ clientX: 215, clientY: 0 }] });
+      fireEvent.touchEnd(activeCard, { changedTouches: [{ clientX: 215, clientY: 0 }] });
+
+      expect(activeCard.className).toContain('flipped');
+    });
+
     it('does not flip when the gesture is a swipe (movement > 80px)', () => {
       render(<Deck />);
 
@@ -179,6 +195,20 @@ describe('Deck', () => {
       fireEvent.touchStart(activeCard, { touches: [{ clientX: 100, clientY: 0 }] });
       fireEvent.touchMove(activeCard, { touches: [{ clientX: -10, clientY: 0 }] });
       fireEvent.touchEnd(activeCard, { changedTouches: [{ clientX: -10, clientY: 0 }] });
+
+      expect(activeCard.className).not.toContain('flipped');
+    });
+
+    it('does not flip when the gesture is a vertical scroll (touch-action: pan-y)', () => {
+      render(<Deck />);
+
+      const activeCard = screen.getAllByRole('button', { name: /carte/i })[0];
+
+      // User drags down to scroll past the deck section. Browser handles the
+      // scroll thanks to touch-action: pan-y, but touch events still fire.
+      fireEvent.touchStart(activeCard, { touches: [{ clientX: 200, clientY: 0 }] });
+      fireEvent.touchMove(activeCard, { touches: [{ clientX: 205, clientY: 120 }] });
+      fireEvent.touchEnd(activeCard, { changedTouches: [{ clientX: 205, clientY: 120 }] });
 
       expect(activeCard.className).not.toContain('flipped');
     });

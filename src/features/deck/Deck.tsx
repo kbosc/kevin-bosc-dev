@@ -19,7 +19,12 @@ export function Deck() {
   const [isMobile, setIsMobile] = useState(false);
   const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const dragStart = useRef<number | null>(null);
+  const dragStartX = useRef<number | null>(null);
+  const dragStartY = useRef<number | null>(null);
+  // Authoritative gesture data, read synchronously from event handlers
+  // (state read in touchend can be stale in rapid touchmove→touchend sequences).
+  const dragXRef = useRef(0);
+  const dragYRef = useRef(0);
   const justHandledTap = useRef(false);
 
   // Konami cascade flip
@@ -50,26 +55,40 @@ export function Deck() {
     setFlipped((prev) => ({ ...prev, [id]: !prev[id] }));
 
   const onTouchStart = (e: React.TouchEvent) => {
-    dragStart.current = e.touches[0].clientX;
+    dragStartX.current = e.touches[0].clientX;
+    dragStartY.current = e.touches[0].clientY;
+    dragXRef.current = 0;
+    dragYRef.current = 0;
     setIsDragging(true);
   };
   const onTouchMove = (e: React.TouchEvent) => {
-    if (dragStart.current == null) return;
-    setDragX(e.touches[0].clientX - dragStart.current);
+    if (dragStartX.current == null || dragStartY.current == null) return;
+    const dx = e.touches[0].clientX - dragStartX.current;
+    const dy = e.touches[0].clientY - dragStartY.current;
+    dragXRef.current = dx;
+    dragYRef.current = dy;
+    setDragX(dx);
   };
   const onTouchEnd = (_e: React.TouchEvent) => {
-    const isTap = Math.abs(dragX) < 10;
-    if (Math.abs(dragX) > 80) {
-      if (dragX < 0 && mobileIdx < filtered.length - 1) setMobileIdx((i) => i + 1);
-      else if (dragX > 0 && mobileIdx > 0) setMobileIdx((i) => i - 1);
-    } else if (isTap) {
+    const finalDx = dragXRef.current;
+    const finalDy = dragYRef.current;
+    if (Math.abs(finalDx) > 80) {
+      if (finalDx < 0 && mobileIdx < filtered.length - 1) setMobileIdx((i) => i + 1);
+      else if (finalDx > 0 && mobileIdx > 0) setMobileIdx((i) => i - 1);
+    } else if (Math.abs(finalDx) < 30 && Math.abs(finalDy) < 30) {
+      // Small horizontal & vertical travel → tap. Allows up to ~30px finger
+      // jitter (real iOS taps rarely stay under 10px) without conflating with
+      // vertical scrolls or partial swipes.
       justHandledTap.current = true;
       // On real iOS the ghost click never fires — reset the flag after the window
       setTimeout(() => { justHandledTap.current = false; }, 400);
       toggleFlip(filtered[mobileIdx].id);
     }
     setDragX(0);
-    dragStart.current = null;
+    dragXRef.current = 0;
+    dragYRef.current = 0;
+    dragStartX.current = null;
+    dragStartY.current = null;
     setIsDragging(false);
   };
 
