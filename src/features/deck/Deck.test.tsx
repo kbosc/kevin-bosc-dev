@@ -157,6 +157,22 @@ describe('Deck', () => {
       expect(activeCard.className).toContain('flipped');
     });
 
+    it('visually rotates the active card when flipped (inline transform must include rotateY)', () => {
+      // The mobile stack assigns an inline `transform` for positioning. Inline
+      // styles win over the .flipped CSS class rule, so rotateY(180deg) MUST
+      // be composed into the inline transform — otherwise the card flips in
+      // state but not visually (the iOS Safari bug).
+      render(<Deck />);
+
+      const activeCard = screen.getAllByRole('button', { name: /carte/i })[0];
+      expect(activeCard.style.transform).toContain('rotateY(0deg)');
+
+      fireEvent.touchStart(activeCard, { touches: [{ clientX: 200, clientY: 0 }] });
+      fireEvent.touchEnd(activeCard, { changedTouches: [{ clientX: 200, clientY: 0 }] });
+
+      expect(activeCard.style.transform).toContain('rotateY(180deg)');
+    });
+
     it('does not double-flip when a ghost click fires after the tap (DevTools simulation)', () => {
       render(<Deck />);
 

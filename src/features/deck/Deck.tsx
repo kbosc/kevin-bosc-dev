@@ -130,8 +130,13 @@ export function Deck() {
                 const offset = i - mobileIdx;
                 const absOffset = Math.abs(offset);
                 if (absOffset > 2) return null;
+                const isFlipped = !!flipped[c.id];
+                // rotateY must be composed into the inline transform — inline
+                // styles override the .flipped CSS class rule, so without this
+                // the flip state updates but the card never visually rotates.
+                const flipDeg = isFlipped ? 180 : 0;
                 const style: React.CSSProperties = {
-                  transform: `translateX(${offset * 20 + (offset === 0 ? dragX : 0)}px) translateY(${absOffset * 10}px) scale(${1 - absOffset * 0.05}) rotate(${offset === 0 ? dragX * 0.05 : offset * 2}deg)`,
+                  transform: `translateX(${offset * 20 + (offset === 0 ? dragX : 0)}px) translateY(${absOffset * 10}px) scale(${1 - absOffset * 0.05}) rotate(${offset === 0 ? dragX * 0.05 : offset * 2}deg) rotateY(${flipDeg}deg)`,
                   zIndex: 10 - absOffset,
                   opacity: absOffset > 1 ? 0.5 : 1,
                   transition: isDragging ? 'none' : 'transform .4s var(--ease), opacity .4s var(--ease)',
@@ -146,7 +151,7 @@ export function Deck() {
                   <Card
                     key={c.id}
                     card={c}
-                    flipped={!!flipped[c.id]}
+                    flipped={isFlipped}
                     onFlip={() => {
                       if (justHandledTap.current) { justHandledTap.current = false; return; }
                       toggleFlip(c.id);
