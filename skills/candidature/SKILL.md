@@ -36,6 +36,7 @@ Détermine l'action à effectuer selon le contexte de la demande, puis exécute-
    - **Niveau** : si le poste est clairement junior ou mid → signaler ; si "lead" ou "manager" → signaler aussi
    - **Salaire** : si mentionné et en dessous de 40k€ → signaler ; entre 40 et 50k€ → noter comme contrainte
    - **Localisation** : si présentiel obligatoire hors Paris → signaler
+   - **Langue** : si le poste est full english (réunions, code review, documentation en anglais) → signaler comme point de vigilance modéré. Kévin peut tenter mais manque de fluidité à l'oral et de vocabulaire — préciser que c'est un risque à peser, pas un bloquant absolu
 
    Présente le résultat à l'utilisateur **avant** de créer l'entrée :
    - Un résumé de l'offre (poste, entreprise, stack, contrat, salaire si dispo)
